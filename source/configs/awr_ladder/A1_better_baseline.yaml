@@ -1,0 +1,19 @@
+ladder_weighting:
+  enabled: true
+  baseline:
+    key_fields: [bucket, opponent_policy_id, opponent_deck_hash]
+    fallback_key_fields:
+      - [bucket, opponent_shell]
+      - [opponent_deck_hash]
+      - [global]
+    min_cell_n: 32
+    shrink_to_global: true
+    shrink_k: 64
+  multipliers: {}
+  total_weight:
+    min: 0.05
+    max: 12.0
+    normalize_mean: 1.0
+    normalize_by: global
+  kl:
+    weight_kl: false

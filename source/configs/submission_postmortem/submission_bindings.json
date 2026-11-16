@@ -1,0 +1,11 @@
+{
+  "schema_version": "deepmew.submission_postmortem.binding.v0",
+  "bindings": {
+    "54788723": {
+      "competition": "pokemon-tcg-ai-battle",
+      "bundle_dir": ".research/submissions/20260717-d1-starmie-plain-ppo-control",
+      "weights_sha256": "sha256:d5e2f0713fd04acc09b4a44d156a784a82a26f7ac9a780f29cf9477b1449b313",
+      "evidence": "explicit D1 upload receipt; never inferred from deck identity"
+    }
+  }
+}

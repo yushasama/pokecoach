@@ -1,0 +1,96 @@
+# K2A meta knowledge graph build config.
+# Card names are resolved to canonical card IDs against the built card catalog.
+# Manual anchors take priority over auto-discovered terminal-card anchors.
+version: k2a_v2
+
+classification:
+  primary_threshold: 3.0
+  engine_primary_threshold: 3.25
+  secondary_threshold: 1.8
+  secondary_ratio: 0.45
+  mixed_ratio: 0.85
+  terminal_weight: 5.0
+  line_weight: 1.0
+  support_weight: 1.25
+  engine_weight: 5.0
+  copy_weight: 0.25
+  max_copy_bonus: 1.0
+  confident_confidence_threshold: 0.50
+  # Non-win-condition terminals (non-ex Stage1/Basic support Pokemon) get reduced
+  # terminal weight so they cannot tie a real ex/Mega/Stage2 core.
+  nonwincon_terminal_scale: 0.5
+
+staples:
+  min_global_deck_freq: 0.18
+  max_lift_for_staple: 1.75
+  min_archetype_entropy_norm: 0.55
+  terminal_card_exclusion: true
+  downweight_min: 0.05
+  downweight_max: 0.35
+
+lift:
+  alpha: 0.5
+  min_report_lift: 1.25
+  min_report_conditional_freq: 0.10
+  tech_max_conditional_freq: 0.35
+  tech_min_lift: 2.0
+  signature_min_conditional_freq: 0.45
+  signature_min_lift: 1.5
+  package_min_lift: 1.5
+  package_min_conditional_freq: 0.25
+  package_max_cards: 12
+
+similarity:
+  top_k: 20
+  include_raw_jaccard: true
+  staple_downweight: true
+
+auto_anchors:
+  enabled: true
+  min_deck_count: 5
+  # Co-occurrence discovery of recurring non-ex Pokemon families among Unknown decks.
+  fallback_min_deck_count: 5
+  # A non-core Pokemon present in >= this many distinct archetypes is a splash/engine.
+  splash_min_archetypes: 4
+
+# Manual seed anchors. Terminal cards dominate primary labels; line cards are
+# supporting evidence only (split-evolution branches stay distinct).
+anchors:
+  - anchor_id: mega_lucario_ex
+    label: Mega Lucario ex
+    anchor_type: pokemon_core
+    terminal_names: ["Mega Lucario ex"]
+    line_names: ["Riolu"]
+  - anchor_id: dragapult_ex
+    label: Dragapult ex
+    anchor_type: pokemon_core
+    terminal_names: ["Dragapult ex"]
+    line_names: ["Dreepy", "Drakloak"]
+  - anchor_id: mega_starmie_ex
+    label: Mega Starmie ex
+    anchor_type: pokemon_core
+    terminal_names: ["Mega Starmie ex"]
+    line_names: ["Staryu"]
+  - anchor_id: mega_froslass_ex
+    label: Mega Froslass ex
+    anchor_type: pokemon_core
+    terminal_names: ["Mega Froslass ex"]
+    line_names: ["Snorunt"]
+  - anchor_id: dusknoir
+    label: Dusknoir
+    anchor_type: pokemon_core
+    terminal_names: ["Dusknoir"]
+    line_names: ["Duskull", "Dusclops"]
+  - anchor_id: alakazam
+    label: Alakazam
+    anchor_type: pokemon_core
+    terminal_names: ["Alakazam"]
+    line_names: ["Abra", "Kadabra"]
+  - anchor_id: cinderace
+    label: Cinderace
+    anchor_type: pokemon_core
+    terminal_names: ["Cinderace"]
+    line_names: ["Raboot", "Scorbunny"]
+
+# Engine packages: keep conservative until corpus evidence justifies more.
+engine_packages: []

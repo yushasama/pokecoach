@@ -1,0 +1,17 @@
+ladder_weighting:
+  enabled: false
+  baseline:
+    key_fields: [opponent_deck_hash]
+    fallback_key_fields:
+      - [global]
+    min_cell_n: 32
+    shrink_to_global: false
+    shrink_k: 64
+  multipliers: {}
+  total_weight:
+    min: 0.0
+    max: 1000000000000000000.0
+    normalize_mean:
+    normalize_by: global
+  kl:
+    weight_kl: false

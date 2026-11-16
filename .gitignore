@@ -1,0 +1,17 @@
+# Python
+__pycache__/
+*.pyc
+.pytest_cache/
+.venv/
+
+# Generated runs, evaluations, saved decks and test output (regenerable)
+outputs/
+
+# Large local data that is not part of pokecoach
+data/
+*.tar.gz
+
+# Not redistributable: install yourself (see CREDITS.md)
+source/cg/*
+!source/cg/README.md
+league/teachers/*.ipynb

@@ -1,0 +1,35 @@
+ladder_weighting:
+  enabled: true
+  baseline:
+    key_fields: [bucket, opponent_policy_id, opponent_deck_hash]
+    fallback_key_fields:
+      - [bucket, opponent_shell]
+      - [opponent_deck_hash]
+      - [global]
+    min_cell_n: 32
+    shrink_to_global: true
+    shrink_k: 64
+  multipliers:
+    phase:
+      default: 1.0
+      placement: 1.35
+      low_climb: 1.20
+      wall_800_1000: 1.55
+      high_band: 1.15
+      mirror: 1.00
+      exploiter: 1.35
+      unknown: 1.0
+    bucket:
+      default: 1.0
+      600_800: 1.25
+      800_900: 1.45
+      900_1000: 1.60
+      1000_plus: 1.20
+      unknown: 1.0
+  total_weight:
+    min: 0.05
+    max: 12.0
+    normalize_mean: 1.0
+    normalize_by: global
+  kl:
+    weight_kl: false

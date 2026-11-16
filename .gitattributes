@@ -1,0 +1,2 @@
+# Keep every byte exact: deck lists and notebooks are SHA-256 pinned by league/registry.json.
+* -text
