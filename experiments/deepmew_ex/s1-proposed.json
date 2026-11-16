@@ -1,0 +1,169 @@
+{
+  "actor": {
+    "action_contract": "complete legal options, min_count=max_count=1, exactly one valid chosen index",
+    "architecture": "DeepMewEX-option-bc-v0",
+    "critic": "none",
+    "feature_allowlist": [
+      "option_features",
+      "value_features"
+    ],
+    "hidden_dim": 64,
+    "model_source_sha256": "d6bea52f6def15271273714d945fe4ce7510c100fc19dfd22e5f4ab8074aad63",
+    "model_spec_id": "spec:sha256:ca1ac1eb10783f380763501ff03a8cec4e1fd62ca4d8794a7ccb9023d1e11b56",
+    "option_dim": 304,
+    "recurrence": "none",
+    "state_dim": 144,
+    "trainable_parameters": 41537,
+    "unsupported_prompt_policy": "exclude with the same mutually exclusive reason precedence recorded by the audit; no gameplay fallback"
+  },
+  "audit": {
+    "dataset_manifest_sha256": "33dfdf7d23dee366d514774498d4c75861031dbc5bc2193b4a4ba0540fe5a089",
+    "id": "v1-audit-20261024",
+    "manifest_path": "outputs/deepmew_ex/v1_admission/v1-audit-20261024/manifest.json",
+    "manifest_sha256": "6eeae2dac95644707a30855589492f29a2e38c999c2bcb96284ac446a132e44a",
+    "readiness": "ready_for_snapshot_bc_review",
+    "visibility": "receipt_supported_not_reproduced"
+  },
+  "claims_allowed": "bounded offline imitation and implementation diagnostics only",
+  "claims_not_allowed": [
+    "gameplay strength or promotion",
+    "temporal/entity information is unnecessary",
+    "the historical49featurevalue result rejects a temporal actor",
+    "source privacy has been independently re-audited",
+    "all V1 rows are supported by a single categorical objective"
+  ],
+  "dataset": {
+    "archive_bytes": 207771654,
+    "archive_sha256": "e0b70c8ab4f628412fc9878b1b1ded27154d3eb7c29219730c74cf2ca11d3157",
+    "asset": "clean-replay.tar.gz",
+    "consumption_order": "ascending rank_sha256 from proposed-train-membership.json; one presentation per selected row; no reshuffle or replacement",
+    "holdout": "zero fitting/tuning/model-scoring uses; remains reserved for a separately authorized independent confirmation",
+    "release": "pilot-v1",
+    "schema": "deepmew.ex.portable_actor_corpus.v1",
+    "selected_membership": {
+      "train": {
+        "games": 3228,
+        "path": "proposed-train-membership.json",
+        "rows": 4096,
+        "sha256": "d8cc12e6e0a5ada6177dfa7feb55148046c6929e7c04dccadfdaef72138b742b",
+        "source_counts": {
+          "kaggle_ingest": 1428,
+          "league_smoke": 3,
+          "r15_hard": 933,
+          "r18_artifacts": 186,
+          "r18_awr": 1373,
+          "r21_staryu": 173
+        }
+      },
+      "validation": {
+        "games": 679,
+        "path": "proposed-validation-membership.json",
+        "rows": 1024,
+        "sha256": "35f506a1b9575cdbf7255d2ea0b279ef4d9c763562f20b5e635fc3ba43a3133e",
+        "source_counts": {
+          "kaggle_ingest": 354,
+          "r15_hard": 229,
+          "r18_artifacts": 42,
+          "r18_awr": 348,
+          "r21_staryu": 51
+        }
+      }
+    },
+    "selection_recipe": "lowest SHA256(seed:stable_row_id) among eligible rows of each frozen split; no label-based selection",
+    "selection_seed": 42,
+    "source_distribution": "frozen original six-family V1 export; natural supported-row mixture, no curation or source reweighting",
+    "split_policy": "existing immutable whole-game train/validation/holdout assignments"
+  },
+  "evaluation": {
+    "checkpoint_selection": "maximum_validation_unweighted_top1_earliest_update",
+    "comparison": "same initialization and validation subset before versus after BC; learning diagnostic, not an equal-compute architecture ablation",
+    "evaluate_after_updates": [
+      512,
+      1024,
+      1536,
+      2048,
+      2560,
+      3072,
+      3584,
+      4096
+    ],
+    "evaluate_initialization": true,
+    "gameplay_evaluation": "not_run",
+    "independent_confirmation": "not_run; no holdout access in this proposed diagnostic",
+    "primary_diagnostic": "validation CE difference from exact untrained initialization, reported without a required improvement threshold",
+    "protocol": "offline_unweighted_v1",
+    "report": [
+      "unweighted CE and top1 with numerator/denominator",
+      "weight-normalized CE and top1 with weighted sums/denominators",
+      "same metrics by source family with exact support",
+      "consumed row/game identities, parameter changes and finite-gradient checks",
+      "best and final artifact hashes and independent reload parity"
+    ],
+    "uncertainty": "report counts and game-grouped exploratory uncertainty if estimated; one training seed cannot establish robust improvement",
+    "validation_decisions": 1024
+  },
+  "execution_authorized": false,
+  "next_dataset_question": "Bounded V2 golden conversion of source-proven CABT histories with semantic legal/chosen actions; compare snapshot, matched null-history and real-history consumers only after source admission. No V2 conversion is executed by this proposal.",
+  "output": {
+    "family": "deepmew_ex",
+    "layout": "outputs/deepmew_ex/snapshot_bc_v1_s1_pilot1/<NEW_RUN_ID>/",
+    "required_receipts": [
+      "resolved config",
+      "model specification",
+      "exact audit/data/split/subset/code/environment identities",
+      "eligible and excluded support",
+      "actual presentations and unique games",
+      "finite-gradient and changed-parameter diagnostics",
+      "best/final checkpoints and hashes",
+      "independent re-evaluation",
+      "completion or failure manifest"
+    ],
+    "run_id": "allocate a new immutable ID only after authorization",
+    "variant": "snapshot_bc_v1_s1_pilot1"
+  },
+  "purpose": "First bounded real-V1 snapshot BC learning diagnostic; V1 remains the compact control while richer semantic/temporal sources are assessed",
+  "required_followup": [
+    "Implement an explicit S1 consumer using this same model/trainer/output store; current S0 trainer must reject this proposal",
+    "Obtain explicit authorization for the frozen real-data execution scope",
+    "Accept or resolve the receipt-supported, not-reproduced source-visibility boundary"
+  ],
+  "resources": {
+    "deterministic_algorithms": true,
+    "device": "cpu",
+    "gpu": false,
+    "maximum_paid_cost": 0,
+    "maximum_wall_seconds": 300,
+    "threads": 1
+  },
+  "schema_version": "deepmew.ex.proposed_s1_snapshot_bc.v1",
+  "stage": "S1",
+  "status": "proposal_not_run",
+  "stop_conditions": [
+    "Any input/audit/membership/code hash mismatch",
+    "Any train/validation/holdout identity overlap",
+    "Any invalid target, non-finite loss/gradient/parameter or no actual parameter updates",
+    "Empty eligible train or validation subset",
+    "Exactly4096 optimizer updates or300seconds, whichever occurs first; incomplete budget is a debugging result, not a completed S1 comparison",
+    "Do not extend budget, change seed/selection rule or retry until a desired score appears"
+  ],
+  "training": {
+    "algorithm": "reuse existing weighted per-decision BC/AdamW",
+    "amsgrad": false,
+    "betas": [
+      0.9,
+      0.999
+    ],
+    "decisions_per_update": 1,
+    "epochs_over_selected_rows": 1,
+    "epsilon": 1e-08,
+    "gradient_clip_l2": 1.0,
+    "initialization": "fresh random seed42; no historical weights",
+    "learning_rate": 0.0003,
+    "objective": "actor_loss_weight times categorical CE per decision; no weight normalization inside update",
+    "optimizer_updates": 4096,
+    "scheduler": "constant",
+    "seed": 42,
+    "unique_training_decisions": 4096,
+    "weight_decay": 0.01
+  }
+}

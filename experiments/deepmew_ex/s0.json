@@ -1,0 +1,23 @@
+{
+  "family": "deepmew_ex",
+  "variant": "snapshot_bc_s0_v1",
+  "stage": "S0",
+  "dataset": "synthetic_v1",
+  "encoder": "fixed_304_144_v1",
+  "architecture": "DeepMewEX-option-bc-v0",
+  "trainer": "bc_adamw",
+  "objective": "single_selection_snapshot_bc",
+  "evaluator": "offline_unweighted_v1",
+  "device": "cpu",
+  "seed": 42,
+  "train_decisions": 64,
+  "validation_decisions": 16,
+  "updates": 32,
+  "hidden_dim": 64,
+  "learning_rate": 0.0003,
+  "weight_decay": 0.01,
+  "gradient_clip": 1.0,
+  "evaluate_every": 8,
+  "checkpoint_selection": "maximum_validation_unweighted_top1_earliest_update",
+  "output_root": "outputs"
+}

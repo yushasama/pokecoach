@@ -1,0 +1,21 @@
+{
+  "corpus": "outputs/deepmew_ex/v2_corpus/v2-full-20261024",
+  "output_root": "outputs/training-runs",
+  "device": "cuda",
+  "seed": 42,
+  "hidden": 128,
+  "embedding": 24,
+  "layers": 2,
+  "heads": 4,
+  "epochs": 1,
+  "learning_rate": 0.0003,
+  "weight_decay": 0.01,
+  "gradient_clip": 1.0,
+  "snapshot_batch": 32,
+  "checkpoint_updates": 500,
+  "max_wall_seconds": 82800,
+  "max_output_bytes": 68719476736,
+  "minimum_free_bytes": 10737418240,
+  "gpu_memory_fraction": 0.6,
+  "cpu_threads": 2
+}

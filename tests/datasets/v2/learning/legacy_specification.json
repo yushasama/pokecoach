@@ -1,0 +1,60 @@
+{
+  "action": {
+    "default": [],
+    "description": "List of option index.",
+    "type": "array"
+  },
+  "agents": [
+    2
+  ],
+  "configuration": {
+    "actTimeout": {
+      "default": 0,
+      "description": "Maximum runtime (seconds) to obtain an action from an agent.",
+      "minimum": 0,
+      "type": "number"
+    },
+    "episodeSteps": {
+      "default": 10000,
+      "description": "Maximum number of steps in the episode.",
+      "minimum": 1,
+      "type": "integer"
+    },
+    "runTimeout": {
+      "default": 2000,
+      "description": "Maximum runtime (seconds) of an episode (not necessarily DONE).",
+      "minimum": 0,
+      "type": "number"
+    }
+  },
+  "info": {},
+  "observation": {
+    "remainingOverageTime": {
+      "default": 600,
+      "description": "Total remaining banked time (seconds) that can be used in excess of per-step actTimeouts -- agent is disqualified with TIMEOUT status when this drops below 0.",
+      "minimum": 0,
+      "shared": false,
+      "type": "number"
+    },
+    "step": {
+      "default": 0,
+      "description": "Current step within the episode.",
+      "minimum": 0,
+      "shared": true,
+      "type": "integer"
+    }
+  },
+  "reward": {
+    "default": 0,
+    "description": "Lost:-1, Won:1, Draw:0",
+    "enum": [
+      -1,
+      0,
+      1
+    ],
+    "type": [
+      "number",
+      "null"
+    ]
+  }
+}

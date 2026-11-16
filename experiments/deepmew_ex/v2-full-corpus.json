@@ -1,0 +1,39 @@
+{
+  "canonical_parts": 390,
+  "catalog": {
+    "byte_size": 129003,
+    "path": "D:\\DeepMew_artifacts\\datasets\\value_q_canonical_v1\\DATASET_CATALOG.json",
+    "sha256": "7459a8010f51d8ae3758e1569b71c55be54a0d2cd23a564ac1470ff3924d3c2e"
+  },
+  "catalog_games": 93356,
+  "catalog_rows": 9300876,
+  "execution_receipt": "docs/receipts/v2-full-corpus-20261024.json",
+  "families": {
+    "kaggle_ingest": 360103,
+    "league_smoke": 889,
+    "r15_hard": 492718,
+    "r18_artifacts": 61719,
+    "r18_awr": 455568,
+    "r21_staryu": 53372,
+    "stage3_public": 5864,
+    "unified_r2": 7870643
+  },
+  "frozen_code_commit": "21a49a5614292f9954d31d82036280481cad6ce8",
+  "historical_target_mask_exclusions": 296636,
+  "inventory_path": "D:\\deepmew_ex\\outputs\\deepmew_ex\\v2_corpus_inputs\\full-20261024\\inventory.json",
+  "inventory_sha256": "0e09fc477598a11b94ea4786b461c4d531fcf905ed86d512ae11c85a8eac6ece",
+  "optimizer_updates": 0,
+  "output": "outputs/deepmew_ex/v2_corpus/v2-full-20261024",
+  "output_manifest_sha256": "6007676d38abb480feff3423fb7fa98a2080a4093a6e104f7188a868039fb6bc",
+  "raw_admitted_episodes": 3251,
+  "raw_distinct_bytes": 18127392590,
+  "raw_distinct_files": 4797,
+  "raw_quarantined_episodes": 1546,
+  "raw_replay_paths": 4845,
+  "schema": "deepmew.ex.full_corpus_scope.v1",
+  "source_file_bytes": 35046618843,
+  "source_file_count": 3367,
+  "source_storage": "reference-backed; original observation bytes retained at hash-bound source locations",
+  "status": "completed",
+  "training_authorized": false
+}

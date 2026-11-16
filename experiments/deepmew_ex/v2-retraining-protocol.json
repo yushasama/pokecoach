@@ -1,0 +1,68 @@
+{
+  "admission_scope": "All 3251 supported causal raw replay episodes; 9.3M canonical reference records are not relabeled training-admitted.",
+  "authorization": "User approved V2 admission, trainer integration, retraining and local league evaluation on 2026-10-25.",
+  "batch_size": 32,
+  "comparison_guard": "Reject changed cache/data/splits, presentation order, budget, optimizer, selection, recurrent architecture or initialization; snapshot is an explicitly declared architecture comparison.",
+  "competing_explanations": [
+    "No useful additional history in this replay population",
+    "Insufficient optimization or capacity",
+    "Unknown/mixed demonstration policy quality",
+    "A broken live adapter or fallback composition"
+  ],
+  "corpus": "outputs/deepmew_ex/v2_corpus/v2-full-20261024",
+  "corpus_manifest_sha256": "6007676d38abb480feff3423fb7fa98a2080a4093a6e104f7188a868039fb6bc",
+  "device": "cpu",
+  "embedding_dim": 24,
+  "follow_up_only_if": "Consumption, learning and live-policy diagnostics pass; further scaling/confirmation is a new experiment rather than an inferred result of this pilot.",
+  "gradient_clip": 1.0,
+  "hidden_dim": 64,
+  "history_stream": "Only the focal actor's own request observations, public log snapshots and completed past actions; no inactive-seat-only snapshots.",
+  "history_window": 8,
+  "hypothesis": "Ordered actor-visible history can improve imitation and exploratory gameplay compared with a rich current-observation policy and a parameter-matched null-history recurrent control.",
+  "league_engine_randomness": "Unpaired; the inspected native BattleStart interface and official game API expose no game-seed argument. Policy RNG seeds do not seed engine chance.",
+  "league_games_per_opponent_participant": 12,
+  "league_interpretation": "Single-training-seed exploratory diagnostic, per-opponent binomial intervals and opponent-cluster aggregate uncertainty; no promotion or completed E11/E23 confirmation claim.",
+  "league_max_decision_seconds": 5,
+  "league_max_selections_per_game": 4000,
+  "league_policy_rng_seeds": [
+    40009,
+    50021,
+    60013
+  ],
+  "league_schedule": "Each policy seed, each seat, two independent games; separate policy RNGs and newly reset agents for every game.",
+  "league_scope": "Existing latest_training_population, exact locally available model/deck identities, plus D1 as a fresh control participant; no membership or champion changes.",
+  "league_wall_limit_seconds": 2400,
+  "learning_rate": 0.0003,
+  "limitations": [
+    "Finite context window, not full-game BPTT",
+    "Small single-seed models and a bounded subset do not establish a model-capacity ceiling",
+    "Mixed replay quality and deck distribution",
+    "Unsupported prompts use a declared frozen fallback evaluated as part of the whole policy"
+  ],
+  "optimizer": "AdamW",
+  "paid_compute_usd": 0,
+  "presentations_per_treatment": 32768,
+  "protocol_id": "v2-bc-league-20261025-v1",
+  "reserved_splits": [
+    "calibration",
+    "test",
+    "holdout",
+    "golden_validation"
+  ],
+  "seed": 42,
+  "selection": "Minimum unweighted validation CE among trained checkpoints, evaluated every256updates and at final update; initialization is reported but excluded from selection.",
+  "selection_validation_only": true,
+  "semantic_leaf_limit": 1024,
+  "stop": "Nonfinite values, missing gradients/updates, identity/privacy/split/target failures, any illegal action/crash/timeout, or configured resource limit. No score-chasing budget extension.",
+  "threads": 1,
+  "train_decisions": 16384,
+  "training_wall_limit_seconds_per_treatment": 900,
+  "treatments": [
+    "snapshot",
+    "null",
+    "ordered",
+    "shuffled"
+  ],
+  "validation_decisions": 2048,
+  "weight_decay": 0.01
+}

@@ -1,0 +1,533 @@
+{
+  "evidence": [
+    {
+      "byte_size": 46791,
+      "path": "D:\\DeepMew\\.research\\submission_postmortem_suite\\submission-54788723-full-v0\\manifest.json",
+      "sha256": "649f084fd538e3ac96bb7372ac36d5cf7f9cb58e1b345c571720c2bee95a28c9"
+    },
+    {
+      "byte_size": 14199,
+      "path": "D:\\DeepMew\\.research\\submission_postmortem_suite\\submission-54788723-full-v0\\replay_cache.json",
+      "sha256": "8fead0a984dddd825badef4c032b4791d17c2009f8e80b46a35b9e5c8b573c2b"
+    },
+    {
+      "byte_size": 3049,
+      "path": "D:\\DeepMew\\.research\\cap001_cabt132_replay_admission_v0\\CANONICAL_REPLAY_ADMISSION_RECEIPT.json",
+      "sha256": "11d76996bd2f4ecafb073021f86d92c114430c13ddf292d8a67622f0bb3dda9a"
+    },
+    {
+      "byte_size": 2094156,
+      "path": "D:\\DeepMew\\.research\\cap001_cabt132_replay_admission_v0\\CANONICAL_IDENTITY_INDEX.json",
+      "sha256": "4e7b275dac005343a22c5929035048771f1932ccbf391cc4542346e7d0e5d106"
+    },
+    {
+      "byte_size": 16549,
+      "path": "D:\\DeepMew\\.research\\centralized_causal_replay_contract_and_derived_v1_20260714\\KAGGLE_FORENSIC_REPORT.md",
+      "sha256": "723e0d4ac170341b30bcdc6826e02e31a53861b2a35ae4b034b701419fcb0743"
+    },
+    {
+      "byte_size": 430707,
+      "path": "D:\\DeepMew\\.research\\centralized_causal_replay_contract_and_derived_v1_20260714\\KAGGLE_RAW_EPISODE_HASH_REGISTRY.json",
+      "sha256": "5da2d7b9a07c6ef7a254dc24798ceac7eae7a7548afc3a33da1622bde94111bd"
+    }
+  ],
+  "expected_frames_by_version": {
+    "1.32.0": 4230
+  },
+  "parser_hashes": {
+    "source/cg/api.py": "593f1298e52a635f90f8f505a52113e9af114f444c293404e37906f18ee06ced",
+    "source/deepmew/replay/contract/causal_alignment.py": "48431d4d7bcb4add1bfb36c68d9d8726e4ae23f29f8d8738edf2de05e907963d",
+    "source/deepmew/replay/contract/chosen_actions.py": "f2def5b30b803228abb8e6c534fd7f8254300779ef749d426b47a836dc9af3a4",
+    "source/deepmew/replay/contract/identities.py": "4c0e8e45c645bc8da2cbbac58445b02d4cff19d51b4db160beb481334c22b09e",
+    "source/deepmew/replay/contract/kaggle_sources.py": "f6be7d926c1dd1c915cfece798e6396a76d36504c665a4ced5f59d71c0887920",
+    "source/deepmew/replay/contract/legal_actions.py": "9a80e031a204b01c459b8f5089af2d89bcf492a74b43899b68014b64a1d8169c",
+    "source/deepmew/replay/contract/schemas.py": "9eef29bfb1f284369a829e685dd7d44acbd37e20b351e09a15e79930632f3d2c",
+    "source/deepmew/replay/contract/source_events.py": "0d3cc0252391ae87f037d88f31b682c2246f1972887ca2e31fc0b39d74728080",
+    "source/deepmew/replay/information_boundary.py": "1ce1f8063f7ff521602952424c01b94b402d1cddc34989fce083f365662cab74",
+    "source/deepmew/replay/prospective_trace.py": "0d078a05eefc8bdfb8f527744e620705a0026ac576a48832a5fd4c7dfd099fce"
+  },
+  "purpose": "golden_validation_only",
+  "schema": "deepmew.ex.golden_inventory.v1",
+  "sources": [
+    {
+      "asset_id": "episode-86529706-replay.json",
+      "byte_size": 2259272,
+      "family": "kaggle_cabt_1.32.0",
+      "module_version": "1.32.0",
+      "native_game_id": "9cdc2120-8202-11f1-82be-0242ac130202",
+      "path": "D:\\DeepMew\\.research\\kaggle_replays\\submission-54788723-all\\episode-86529706-replay.json",
+      "sha256": "52e85a21be9eaa3cf6b3cbf09f0e329540b2e9f24f76f1f16fbad4d98430c6f7",
+      "split": "golden_validation"
+    },
+    {
+      "asset_id": "episode-86530455-replay.json",
+      "byte_size": 1215764,
+      "family": "kaggle_cabt_1.32.0",
+      "module_version": "1.32.0",
+      "native_game_id": "517a7fa0-8203-11f1-b9cd-0242ac130204",
+      "path": "D:\\DeepMew\\.research\\kaggle_replays\\submission-54788723-all\\episode-86530455-replay.json",
+      "sha256": "ba9997d358df7a30eb7cd039453ae0d3e9fd73438bffa7487c2068cf0a9adccd",
+      "split": "golden_development"
+    },
+    {
+      "asset_id": "episode-86531083-replay.json",
+      "byte_size": 2828722,
+      "family": "kaggle_cabt_1.32.0",
+      "module_version": "1.32.0",
+      "native_game_id": "ed5c385a-8203-11f1-bad6-0242ac130203",
+      "path": "D:\\DeepMew\\.research\\kaggle_replays\\submission-54788723-all\\episode-86531083-replay.json",
+      "sha256": "fe4a07d29ddf855a44ec275e144b577283f4ed6bb23ac9b5092228c141e54156",
+      "split": "golden_development"
+    },
+    {
+      "asset_id": "episode-86531697-replay.json",
+      "byte_size": 2291790,
+      "family": "kaggle_cabt_1.32.0",
+      "module_version": "1.32.0",
+      "native_game_id": "73daea20-8204-11f1-9864-0242ac130203",
+      "path": "D:\\DeepMew\\.research\\kaggle_replays\\submission-54788723-all\\episode-86531697-replay.json",
+      "sha256": "bda46929513487fc1a6080a48ee85317711617032a4403e8a5ea415b1a35a7f4",
+      "split": "golden_development"
+    },
+    {
+      "asset_id": "episode-86532302-replay.json",
+      "byte_size": 561452,
+      "family": "kaggle_cabt_1.32.0",
+      "module_version": "1.32.0",
+      "native_game_id": "02e3847a-8205-11f1-87ff-0242ac130203",
+      "path": "D:\\DeepMew\\.research\\kaggle_replays\\submission-54788723-all\\episode-86532302-replay.json",
+      "sha256": "1a38743b4e5fbb87db2ba382b7932f598af801e5accfb07f9c2828a0ea14b59e",
+      "split": "golden_development"
+    },
+    {
+      "asset_id": "episode-86532914-replay.json",
+      "byte_size": 4261178,
+      "family": "kaggle_cabt_1.32.0",
+      "module_version": "1.32.0",
+      "native_game_id": "909b78c2-8205-11f1-a582-0242ac130203",
+      "path": "D:\\DeepMew\\.research\\kaggle_replays\\submission-54788723-all\\episode-86532914-replay.json",
+      "sha256": "b4cd0d775179dded77f7068ffc65572feb478e6fd9c3eb8c3657c54c84824e51",
+      "split": "golden_development"
+    },
+    {
+      "asset_id": "episode-86533477-replay.json",
+      "byte_size": 1681014,
+      "family": "kaggle_cabt_1.32.0",
+      "module_version": "1.32.0",
+      "native_game_id": "2452659e-8206-11f1-b351-0242ac130204",
+      "path": "D:\\DeepMew\\.research\\kaggle_replays\\submission-54788723-all\\episode-86533477-replay.json",
+      "sha256": "eab6f6e88fc369f5187e93028184f5615696699f57e19a9edf97c799658fded8",
+      "split": "golden_development"
+    },
+    {
+      "asset_id": "episode-86534047-replay.json",
+      "byte_size": 2638605,
+      "family": "kaggle_cabt_1.32.0",
+      "module_version": "1.32.0",
+      "native_game_id": "b9fd5086-8206-11f1-bdf7-0242ac130203",
+      "path": "D:\\DeepMew\\.research\\kaggle_replays\\submission-54788723-all\\episode-86534047-replay.json",
+      "sha256": "f3fd71e699f66c2888345840531ca01f9fb951a819f00b0c42a995ce75ae687a",
+      "split": "golden_development"
+    },
+    {
+      "asset_id": "episode-86534283-replay.json",
+      "byte_size": 2154410,
+      "family": "kaggle_cabt_1.32.0",
+      "module_version": "1.32.0",
+      "native_game_id": "b808ad3e-8206-11f1-ba08-0242ac130203",
+      "path": "D:\\DeepMew\\.research\\kaggle_replays\\submission-54788723-all\\episode-86534283-replay.json",
+      "sha256": "4a49185d132b926bac06d6d35356bb1af14f7b09987cdd48e381eace4766894f",
+      "split": "golden_development"
+    },
+    {
+      "asset_id": "episode-86534642-replay.json",
+      "byte_size": 1280474,
+      "family": "kaggle_cabt_1.32.0",
+      "module_version": "1.32.0",
+      "native_game_id": "48dcc2f0-8207-11f1-82c0-0242ac130204",
+      "path": "D:\\DeepMew\\.research\\kaggle_replays\\submission-54788723-all\\episode-86534642-replay.json",
+      "sha256": "21df88336428fedda97d1ba88de5006ff57c0282e4ccd7e466ce2fb700e613a7",
+      "split": "golden_development"
+    },
+    {
+      "asset_id": "episode-86535217-replay.json",
+      "byte_size": 4278394,
+      "family": "kaggle_cabt_1.32.0",
+      "module_version": "1.32.0",
+      "native_game_id": "d326a3f4-8207-11f1-a500-0242ac130203",
+      "path": "D:\\DeepMew\\.research\\kaggle_replays\\submission-54788723-all\\episode-86535217-replay.json",
+      "sha256": "0e92e8a08c0f93848f6eb007556023b318b05c8392fae8c2f2bf786b4271be74",
+      "split": "golden_development"
+    },
+    {
+      "asset_id": "episode-86535794-replay.json",
+      "byte_size": 2991132,
+      "family": "kaggle_cabt_1.32.0",
+      "module_version": "1.32.0",
+      "native_game_id": "6044496c-8208-11f1-ada3-0242ac130203",
+      "path": "D:\\DeepMew\\.research\\kaggle_replays\\submission-54788723-all\\episode-86535794-replay.json",
+      "sha256": "2a067d3b17a42b0151492d32b72ce2a0294172a329ffeb6f74e21ff98ac8932a",
+      "split": "golden_development"
+    },
+    {
+      "asset_id": "episode-86536360-replay.json",
+      "byte_size": 2751403,
+      "family": "kaggle_cabt_1.32.0",
+      "module_version": "1.32.0",
+      "native_game_id": "eb627596-8208-11f1-b2c8-0242ac130203",
+      "path": "D:\\DeepMew\\.research\\kaggle_replays\\submission-54788723-all\\episode-86536360-replay.json",
+      "sha256": "883899abada3216f69c03ce70373a67d4dd4540d3ceb87f56e6389ea5e8b1d84",
+      "split": "golden_development"
+    },
+    {
+      "asset_id": "episode-86536938-replay.json",
+      "byte_size": 2639028,
+      "family": "kaggle_cabt_1.32.0",
+      "module_version": "1.32.0",
+      "native_game_id": "82b58320-8209-11f1-bd7d-0242ac130204",
+      "path": "D:\\DeepMew\\.research\\kaggle_replays\\submission-54788723-all\\episode-86536938-replay.json",
+      "sha256": "7ccc68011ac929212b43f657dd940c4c570336cf9e18eeed5ad01e8054d9bd80",
+      "split": "golden_development"
+    },
+    {
+      "asset_id": "episode-86537516-replay.json",
+      "byte_size": 4017629,
+      "family": "kaggle_cabt_1.32.0",
+      "module_version": "1.32.0",
+      "native_game_id": "0e093a16-820a-11f1-be2d-0242ac130203",
+      "path": "D:\\DeepMew\\.research\\kaggle_replays\\submission-54788723-all\\episode-86537516-replay.json",
+      "sha256": "bfc38570f0e1a1379472b638d691e9503b6cc4027fb44f653556cfd18e81bd6d",
+      "split": "golden_development"
+    },
+    {
+      "asset_id": "episode-86538109-replay.json",
+      "byte_size": 3469075,
+      "family": "kaggle_cabt_1.32.0",
+      "module_version": "1.32.0",
+      "native_game_id": "9fcd0946-820a-11f1-b143-0242ac130203",
+      "path": "D:\\DeepMew\\.research\\kaggle_replays\\submission-54788723-all\\episode-86538109-replay.json",
+      "sha256": "26828a763d5c75c456ee08c4b96780355752224d07d116e79ca56a95447770ff",
+      "split": "golden_development"
+    },
+    {
+      "asset_id": "episode-86538675-replay.json",
+      "byte_size": 2471577,
+      "family": "kaggle_cabt_1.32.0",
+      "module_version": "1.32.0",
+      "native_game_id": "2ceb50bc-820b-11f1-ae74-0242ac130202",
+      "path": "D:\\DeepMew\\.research\\kaggle_replays\\submission-54788723-all\\episode-86538675-replay.json",
+      "sha256": "9a20aafe3d18fba9a5f9df9ec41bcf9d60e424faf450a65cb0085dc44f08c105",
+      "split": "golden_development"
+    },
+    {
+      "asset_id": "episode-86539255-replay.json",
+      "byte_size": 4311565,
+      "family": "kaggle_cabt_1.32.0",
+      "module_version": "1.32.0",
+      "native_game_id": "bd3c6c78-820b-11f1-826a-0242ac130202",
+      "path": "D:\\DeepMew\\.research\\kaggle_replays\\submission-54788723-all\\episode-86539255-replay.json",
+      "sha256": "eaa3fd91335a1da885f75ce5df8113ca89910abc2158ebc319fcb5e41d687a4f",
+      "split": "golden_development"
+    },
+    {
+      "asset_id": "episode-86539840-replay.json",
+      "byte_size": 2762215,
+      "family": "kaggle_cabt_1.32.0",
+      "module_version": "1.32.0",
+      "native_game_id": "4cbbd19a-820c-11f1-b9bc-0242ac130204",
+      "path": "D:\\DeepMew\\.research\\kaggle_replays\\submission-54788723-all\\episode-86539840-replay.json",
+      "sha256": "ee0c0f43bb4ecce359922373a682ee32c2895c28584ce629e357001c24e457a4",
+      "split": "golden_development"
+    },
+    {
+      "asset_id": "episode-86540033-replay.json",
+      "byte_size": 2510716,
+      "family": "kaggle_cabt_1.32.0",
+      "module_version": "1.32.0",
+      "native_game_id": "4581c0a6-820c-11f1-9c5c-0242ac130202",
+      "path": "D:\\DeepMew\\.research\\kaggle_replays\\submission-54788723-all\\episode-86540033-replay.json",
+      "sha256": "054c856bdc0fc0bb37ae90df78c74377c5d91e00287f98de71e7f9abc70b158f",
+      "split": "golden_development"
+    },
+    {
+      "asset_id": "episode-86540428-replay.json",
+      "byte_size": 890052,
+      "family": "kaggle_cabt_1.32.0",
+      "module_version": "1.32.0",
+      "native_game_id": "de8d7a7e-820c-11f1-8835-0242ac130203",
+      "path": "D:\\DeepMew\\.research\\kaggle_replays\\submission-54788723-all\\episode-86540428-replay.json",
+      "sha256": "056dbabd78e8eb112d8b06361f214f5ea84ca5cf497bf255be5d3a3d9584d055",
+      "split": "golden_development"
+    },
+    {
+      "asset_id": "episode-86541026-replay.json",
+      "byte_size": 2594842,
+      "family": "kaggle_cabt_1.32.0",
+      "module_version": "1.32.0",
+      "native_game_id": "65433978-820d-11f1-a206-0242ac130203",
+      "path": "D:\\DeepMew\\.research\\kaggle_replays\\submission-54788723-all\\episode-86541026-replay.json",
+      "sha256": "c10ce27d49855f8728a75e8ac74af00378e17cc828090e305f48f6abe931f727",
+      "split": "golden_development"
+    },
+    {
+      "asset_id": "episode-86541613-replay.json",
+      "byte_size": 2601324,
+      "family": "kaggle_cabt_1.32.0",
+      "module_version": "1.32.0",
+      "native_game_id": "fa1686cc-820d-11f1-82ba-0242ac130204",
+      "path": "D:\\DeepMew\\.research\\kaggle_replays\\submission-54788723-all\\episode-86541613-replay.json",
+      "sha256": "70b613cf04c342fc5fba0d40ffe38d634c4ac902e26c70f4c8c33c802f750740",
+      "split": "golden_validation"
+    },
+    {
+      "asset_id": "episode-86542178-replay.json",
+      "byte_size": 1794399,
+      "family": "kaggle_cabt_1.32.0",
+      "module_version": "1.32.0",
+      "native_game_id": "835752ea-820e-11f1-912e-0242ac130204",
+      "path": "D:\\DeepMew\\.research\\kaggle_replays\\submission-54788723-all\\episode-86542178-replay.json",
+      "sha256": "6a0585585d2b6990fcedf9cdb792057203cff67b37dbc3a3b3b30a631dc3a653",
+      "split": "golden_validation"
+    },
+    {
+      "asset_id": "episode-86542757-replay.json",
+      "byte_size": 3546678,
+      "family": "kaggle_cabt_1.32.0",
+      "module_version": "1.32.0",
+      "native_game_id": "128e82d0-820f-11f1-9bfa-0242ac130204",
+      "path": "D:\\DeepMew\\.research\\kaggle_replays\\submission-54788723-all\\episode-86542757-replay.json",
+      "sha256": "e7a8cb76cccfa3d8477a24c73e81936912f3b3d3258913e0fa506cab369554a9",
+      "split": "golden_validation"
+    },
+    {
+      "asset_id": "episode-86543348-replay.json",
+      "byte_size": 4782613,
+      "family": "kaggle_cabt_1.32.0",
+      "module_version": "1.32.0",
+      "native_game_id": "a91636ee-820f-11f1-9b57-0242ac130202",
+      "path": "D:\\DeepMew\\.research\\kaggle_replays\\submission-54788723-all\\episode-86543348-replay.json",
+      "sha256": "ae99101f5b3ec2ff7a73ff1ae1d98137cfb0c869bc34d335d515eb5b3664e2f7",
+      "split": "golden_validation"
+    },
+    {
+      "asset_id": "episode-86543936-replay.json",
+      "byte_size": 3575431,
+      "family": "kaggle_cabt_1.32.0",
+      "module_version": "1.32.0",
+      "native_game_id": "36679998-8210-11f1-8fb1-0242ac130204",
+      "path": "D:\\DeepMew\\.research\\kaggle_replays\\submission-54788723-all\\episode-86543936-replay.json",
+      "sha256": "93154ba4cc7b3e017ec2c87072df4e72d191aeb54137e14e2c8a4de5ac366988",
+      "split": "golden_development"
+    },
+    {
+      "asset_id": "episode-86544520-replay.json",
+      "byte_size": 2387483,
+      "family": "kaggle_cabt_1.32.0",
+      "module_version": "1.32.0",
+      "native_game_id": "bfdd69c8-8210-11f1-aab2-0242ac130202",
+      "path": "D:\\DeepMew\\.research\\kaggle_replays\\submission-54788723-all\\episode-86544520-replay.json",
+      "sha256": "b0a85c770c7921d12f9941b0e0b2c24ad5812fab6cccb1f4af1e413e93ebe227",
+      "split": "golden_development"
+    },
+    {
+      "asset_id": "episode-86545092-replay.json",
+      "byte_size": 2641400,
+      "family": "kaggle_cabt_1.32.0",
+      "module_version": "1.32.0",
+      "native_game_id": "55c1fd64-8211-11f1-b280-0242ac130203",
+      "path": "D:\\DeepMew\\.research\\kaggle_replays\\submission-54788723-all\\episode-86545092-replay.json",
+      "sha256": "8229e9cf4e33d1366da1514dba27d86d60ceba33dc7c58785c0f1789bd40e069",
+      "split": "golden_development"
+    },
+    {
+      "asset_id": "episode-86545660-replay.json",
+      "byte_size": 3206152,
+      "family": "kaggle_cabt_1.32.0",
+      "module_version": "1.32.0",
+      "native_game_id": "e6335bfe-8211-11f1-898d-0242ac130202",
+      "path": "D:\\DeepMew\\.research\\kaggle_replays\\submission-54788723-all\\episode-86545660-replay.json",
+      "sha256": "5f5bb90aaca24cc44e9590154158d91c84869e9e72b913b65740e52c388d50fc",
+      "split": "golden_validation"
+    },
+    {
+      "asset_id": "episode-86546246-replay.json",
+      "byte_size": 3077475,
+      "family": "kaggle_cabt_1.32.0",
+      "module_version": "1.32.0",
+      "native_game_id": "6dce56ae-8212-11f1-8532-0242ac130202",
+      "path": "D:\\DeepMew\\.research\\kaggle_replays\\submission-54788723-all\\episode-86546246-replay.json",
+      "sha256": "c96771ea1650ae0cecd4d3746fd038c84cedd4feba98099d0759d14e647e8019",
+      "split": "golden_development"
+    },
+    {
+      "asset_id": "episode-86546844-replay.json",
+      "byte_size": 1551796,
+      "family": "kaggle_cabt_1.32.0",
+      "module_version": "1.32.0",
+      "native_game_id": "029cfcae-8213-11f1-bba5-0242ac130204",
+      "path": "D:\\DeepMew\\.research\\kaggle_replays\\submission-54788723-all\\episode-86546844-replay.json",
+      "sha256": "414de185e08666b2a7cd944f41ac606195128464b919187e397306e23cd321e6",
+      "split": "golden_development"
+    },
+    {
+      "asset_id": "episode-86547425-replay.json",
+      "byte_size": 1159123,
+      "family": "kaggle_cabt_1.32.0",
+      "module_version": "1.32.0",
+      "native_game_id": "8c6e7674-8213-11f1-97b9-0242ac130204",
+      "path": "D:\\DeepMew\\.research\\kaggle_replays\\submission-54788723-all\\episode-86547425-replay.json",
+      "sha256": "aa414f38b8c8fad141942d52ad83090d186f231656144991045c3bd78a45913c",
+      "split": "golden_development"
+    },
+    {
+      "asset_id": "episode-86547925-replay.json",
+      "byte_size": 4517948,
+      "family": "kaggle_cabt_1.32.0",
+      "module_version": "1.32.0",
+      "native_game_id": "2047479a-8214-11f1-998e-0242ac130204",
+      "path": "D:\\DeepMew\\.research\\kaggle_replays\\submission-54788723-all\\episode-86547925-replay.json",
+      "sha256": "d5714b3647b5b469544bffc256a8fb1196b5e80d1c4bcfd81a2826486f45ed5e",
+      "split": "golden_development"
+    },
+    {
+      "asset_id": "episode-86548581-replay.json",
+      "byte_size": 3619098,
+      "family": "kaggle_cabt_1.32.0",
+      "module_version": "1.32.0",
+      "native_game_id": "b490d3c6-8214-11f1-9a64-0242ac130202",
+      "path": "D:\\DeepMew\\.research\\kaggle_replays\\submission-54788723-all\\episode-86548581-replay.json",
+      "sha256": "d202196186f22f1581cce3545f26dfcee993fef5687740c276fef4c2c48c6338",
+      "split": "golden_development"
+    },
+    {
+      "asset_id": "episode-86549162-replay.json",
+      "byte_size": 3728591,
+      "family": "kaggle_cabt_1.32.0",
+      "module_version": "1.32.0",
+      "native_game_id": "38d06e08-8215-11f1-b27c-0242ac130204",
+      "path": "D:\\DeepMew\\.research\\kaggle_replays\\submission-54788723-all\\episode-86549162-replay.json",
+      "sha256": "ef261ead6de822827876cdef8eac40bad60b676973ea0b8f1a3e80ca620effee",
+      "split": "golden_development"
+    },
+    {
+      "asset_id": "episode-86549728-replay.json",
+      "byte_size": 2945363,
+      "family": "kaggle_cabt_1.32.0",
+      "module_version": "1.32.0",
+      "native_game_id": "cfb8a6be-8215-11f1-8a26-0242ac130203",
+      "path": "D:\\DeepMew\\.research\\kaggle_replays\\submission-54788723-all\\episode-86549728-replay.json",
+      "sha256": "a3b3c1d5af82a3934cff85bd51aad0e6983a4b22bbabbdd68671918a551d3d5a",
+      "split": "golden_development"
+    },
+    {
+      "asset_id": "episode-86550325-replay.json",
+      "byte_size": 1607764,
+      "family": "kaggle_cabt_1.32.0",
+      "module_version": "1.32.0",
+      "native_game_id": "61158b5e-8216-11f1-8d1e-0242ac130202",
+      "path": "D:\\DeepMew\\.research\\kaggle_replays\\submission-54788723-all\\episode-86550325-replay.json",
+      "sha256": "e2b7b954e82c6413865b047cb503df56f8d9d2b3e6eff17191510a4286626237",
+      "split": "golden_development"
+    },
+    {
+      "asset_id": "episode-86551025-replay.json",
+      "byte_size": 1445569,
+      "family": "kaggle_cabt_1.32.0",
+      "module_version": "1.32.0",
+      "native_game_id": "e53d5b8c-8216-11f1-9f71-0242ac130203",
+      "path": "D:\\DeepMew\\.research\\kaggle_replays\\submission-54788723-all\\episode-86551025-replay.json",
+      "sha256": "3672df1e5aee8439028bd868367f7a52f2a209bf86c1b5587ea5817e220e31ab",
+      "split": "golden_development"
+    },
+    {
+      "asset_id": "episode-86553290-replay.json",
+      "byte_size": 2926933,
+      "family": "kaggle_cabt_1.32.0",
+      "module_version": "1.32.0",
+      "native_game_id": "22924e6e-8219-11f1-a1a0-0242ac130204",
+      "path": "D:\\DeepMew\\.research\\kaggle_replays\\submission-54788723-all\\episode-86553290-replay.json",
+      "sha256": "2f39c6903cae9646baf830634e4d5c9c7fa0dd9dfa1311c1c2c78f99e9ab24a6",
+      "split": "golden_development"
+    },
+    {
+      "asset_id": "episode-86557832-replay.json",
+      "byte_size": 2597083,
+      "family": "kaggle_cabt_1.32.0",
+      "module_version": "1.32.0",
+      "native_game_id": "238fe16e-821e-11f1-ad8a-0242ac130203",
+      "path": "D:\\DeepMew\\.research\\kaggle_replays\\submission-54788723-all\\episode-86557832-replay.json",
+      "sha256": "006e8becd4c430d26ae8e2487753b458dc14709a282b075701e6bf1fb410b16e",
+      "split": "golden_development"
+    },
+    {
+      "asset_id": "episode-86563438-replay.json",
+      "byte_size": 1423166,
+      "family": "kaggle_cabt_1.32.0",
+      "module_version": "1.32.0",
+      "native_game_id": "e03c514e-8223-11f1-bf8b-0242ac130202",
+      "path": "D:\\DeepMew\\.research\\kaggle_replays\\submission-54788723-all\\episode-86563438-replay.json",
+      "sha256": "953e5bb332b290298f0d362dc18ecea97dbce4fb65bdc6a45b68baca6d694893",
+      "split": "golden_development"
+    },
+    {
+      "asset_id": "episode-83762091-replay.json",
+      "byte_size": 1550570,
+      "family": "kaggle_cabt_1.30.2",
+      "module_version": "1.30.2",
+      "native_game_id": "552bd27e-7764-11f1-8203-0242ac130204",
+      "path": "D:\\DeepMew\\.research\\kaggle_replays\\r14-our-slots\\episode-83762091-replay.json",
+      "sha256": "148350e0d646d6c7e75ef724c5a83548c85dc7c27a2523c06ea4cf2a9d4443d7",
+      "split": "golden_development"
+    },
+    {
+      "asset_id": "episode-83764358-replay.json",
+      "byte_size": 2936460,
+      "family": "kaggle_cabt_1.30.2",
+      "module_version": "1.30.2",
+      "native_game_id": "00607cde-7766-11f1-b397-0242ac130202",
+      "path": "D:\\DeepMew\\.research\\kaggle_replays\\r14-our-slots\\episode-83764358-replay.json",
+      "sha256": "eea703904bafe3b11ffaab07bc832272902ee1cdd1e03e8573bdcf7ecc259ce0",
+      "split": "golden_development"
+    },
+    {
+      "asset_id": "episode-83765815-replay.json",
+      "byte_size": 6620603,
+      "family": "kaggle_cabt_1.30.2",
+      "module_version": "1.30.2",
+      "native_game_id": "21a9b314-7767-11f1-a086-0242ac130203",
+      "path": "D:\\DeepMew\\.research\\kaggle_replays\\r14-our-slots\\episode-83765815-replay.json",
+      "sha256": "bf094b9db109ac23397936be26155a8af8fff6376ef34945758675b77590a7d4",
+      "split": "golden_validation"
+    },
+    {
+      "asset_id": "episode-83767281-replay.json",
+      "byte_size": 2770471,
+      "family": "kaggle_cabt_1.30.2",
+      "module_version": "1.30.2",
+      "native_game_id": "3d034f16-7768-11f1-a65e-0242ac130203",
+      "path": "D:\\DeepMew\\.research\\kaggle_replays\\r14-our-slots\\episode-83767281-replay.json",
+      "sha256": "648e8f723e9d477aebb8cca1c9040afc0b2fa0dacd499f6ede9d2b928934e0c7",
+      "split": "golden_validation"
+    },
+    {
+      "asset_id": "episode-83770866-replay.json",
+      "byte_size": 2331979,
+      "family": "kaggle_cabt_1.30.2",
+      "module_version": "1.30.2",
+      "native_game_id": "09d6144a-776b-11f1-a81c-0242ac130203",
+      "path": "D:\\DeepMew\\.research\\kaggle_replays\\r14-our-slots\\episode-83770866-replay.json",
+      "sha256": "85e139c06800303f2fb596275fb11b0b92cda4e962d0e65d6b76a7ffc858995b",
+      "split": "golden_validation"
+    },
+    {
+      "asset_id": "episode-83772351-replay.json",
+      "byte_size": 296568,
+      "family": "kaggle_cabt_1.30.2",
+      "module_version": "1.30.2",
+      "native_game_id": "26773038-776c-11f1-9b25-0242ac130204",
+      "path": "D:\\DeepMew\\.research\\kaggle_replays\\r14-our-slots\\episode-83772351-replay.json",
+      "sha256": "760fc796b4efb2025b6f6e589b9383952a26bd86a9c4a9684ff6afc617f42a79",
+      "split": "golden_validation"
+    }
+  ]
+}

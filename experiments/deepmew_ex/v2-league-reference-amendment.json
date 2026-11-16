@@ -1,0 +1,11 @@
+{
+  "protocol_id": "v2-bc-league-reference-amendment-20261025-v1",
+  "parent_protocol": "v2-retraining-protocol.json",
+  "reason": "The first league attempt exposed native notebook decoder requirements and forbidden-zone buffer dependencies before a valid league conclusion.",
+  "invalid_attempt": "outputs/deepmew_ex/v2_league/v2-league-20261025",
+  "reference_policy": "Exact frozen notebook on the common actor-visible projection. Explicit deck/looking nulls satisfy its native decoder. DECK/LOOKING option requests use the same preserved greedy fallback as candidates. All routes are counted. Unexpected notebook errors stop evaluation; silent proxy substitution is rejected.",
+  "scope_limit": "Four references are restricted-input notebook/greedy hybrids, not reproductions of their unrestricted native-information strength. Six checkpoint opponents and the D1 anchor retain their existing explicit runtime bindings.",
+  "unchanged": ["trained checkpoints", "data/splits/vocabulary", "training budget and selection", "opponent assets and decks", "policy seeds/seats/repetitions", "600-game corrected schedule", "safety/resource limits", "no promotion"],
+  "validation": "Reference canary covers both seats for all four references and D1 before the corrected full league.",
+  "retry_policy": "Fresh run ID for a complete corrected schedule; partial invalid-attempt scores are never pooled or used to select checkpoints. No score-chasing training or evaluation extension."
+}

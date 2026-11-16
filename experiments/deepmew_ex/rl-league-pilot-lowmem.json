@@ -1,0 +1,17 @@
+{
+  "bc_checkpoint": "outputs/training-runs/deepmew_ex/v2_full_temporal_v1/bc-8m-2ep-20261114-e/checkpoints/phase-end-e1-raw-52213-u104426.pt",
+  "bc_sha256": "911fb34b549ee9913b38dfc3e0b4add6edcf33fb41216a77f62bfc9d36714a74",
+  "deck": "source/.research/curriculum/decks/top_staryu_windecks_b15853cdfb83.deck.csv",
+  "outside_opponents": {"d1": null, "ref_abomasnow": null, "ref_lucario": null, "ref_iono": null, "ref_dragapult": null, "z3rox_7th": 0.10},
+  "external_submission": "outputs/external_agents/z3rox_7th_1dde9eca/kaggle_submission",
+  "output_root": "D:/deepmew_ex/outputs/rl-runs",
+  "workers": 5,
+  "external_workers": 2,
+  "games_per_iteration": 192,
+  "iterations": 100000,
+  "max_wall_seconds": 14400,
+  "checkpoint_every": 5,
+  "seed": 20261115,
+  "ppo": {"epochs": 2, "clip": 0.2, "lam": 0.95, "gamma": 1.0, "entropy": 0.003, "value_coef": 1.0, "learning_rate": 2e-5, "value_learning_rate": 3e-4, "gradient_clip": 1.0, "target_kl": 0.03, "minibatch_games": 8, "minibatch_leaves": 150000, "upgo": 0.0, "value_warmup_iterations": 3, "value_trunk_gradient": false},
+  "league": {"floor": 0.15, "ema": 0.1, "snapshot_share": 0.2, "max_snapshots": 4, "snapshot_every": 10}
+}

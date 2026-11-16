@@ -1,0 +1,161 @@
+{
+  "files": [
+    {
+      "path": "source/.research/submissions/20260717-d1-starmie-plain-ppo-control/deck.csv",
+      "bytes": 259,
+      "sha256": "2636fcaf8aedd7a156d0b2e33185b0e3878a9c2e2b77425f9203cc53e96e7b28"
+    },
+    {
+      "path": "source/.research/submissions/20260717-d1-starmie-plain-ppo-control/main.py",
+      "bytes": 1870,
+      "sha256": "683ba288e5d8d93b5a745de486e8ca811103352e3eecacd754eddaa17ed88357"
+    },
+    {
+      "path": "source/.research/submissions/20260717-d1-starmie-plain-ppo-control/r5_distilled_policy.py",
+      "bytes": 23605,
+      "sha256": "710b11d69346af6798be568e9de9c4466a7ad13c8620c22dffa75e2efa63fd0e"
+    },
+    {
+      "path": "source/.research/submissions/20260717-d1-starmie-plain-ppo-control/r5_policy_weights.manifest.json",
+      "bytes": 1264,
+      "sha256": "4dfc3f4186e17f62b2abf8f4167c37b7cda75b08c5b11ee417669f5dd4906e83"
+    },
+    {
+      "path": "source/.research/submissions/20260717-d1-starmie-plain-ppo-control/r5_policy_weights.npz",
+      "bytes": 4026159,
+      "sha256": "d5e2f0713fd04acc09b4a44d156a784a82a26f7ac9a780f29cf9477b1449b313"
+    },
+    {
+      "path": "source/.research/submissions/20260717-d1-starmie-plain-ppo-control/second_order_reader.py",
+      "bytes": 14091,
+      "sha256": "a63c75859d61877b00a3c1edd9f02906168b94fe0d06e1c59ac68bd6d1bdd35d"
+    },
+    {
+      "path": "source/.research/submissions/20260717-d1-starmie-plain-ppo-control/submission_manifest.json",
+      "bytes": 1555,
+      "sha256": "3b18e2058515c045347821b83692e9477fb90fb2e2dc37b170227b94883fdda1"
+    },
+    {
+      "path": "source/.research/submissions/20260717-d1-starmie-plain-ppo-control/cg/api.py",
+      "bytes": 26933,
+      "sha256": "593f1298e52a635f90f8f505a52113e9af114f444c293404e37906f18ee06ced"
+    },
+    {
+      "path": "source/.research/submissions/20260717-d1-starmie-plain-ppo-control/cg/cg.dll",
+      "bytes": 1523200,
+      "sha256": "c7c87eb76513784b0089b02dcf9d57466a1b0b2217df4cfc9af8c74deda3969f"
+    },
+    {
+      "path": "source/.research/submissions/20260717-d1-starmie-plain-ppo-control/cg/game.py",
+      "bytes": 2225,
+      "sha256": "3bd3d4f4a369a11e6d2f5da9094cf15ebc410a2221835e6417b7cff4883f1fc2"
+    },
+    {
+      "path": "source/.research/submissions/20260717-d1-starmie-plain-ppo-control/cg/libcg.so",
+      "bytes": 1338304,
+      "sha256": "75d7d619b56e5ad4c5caeadc698e61faecc650678dceab52ad687f08d5676beb"
+    },
+    {
+      "path": "source/.research/submissions/20260717-d1-starmie-plain-ppo-control/cg/sim.py",
+      "bytes": 1966,
+      "sha256": "e7a804ee4cd7c5a9a3b8dc91f9581ff3585f9431633a41f33d7707194cb31191"
+    },
+    {
+      "path": "source/.research/submissions/20260717-d1-starmie-plain-ppo-control/cg/utils.py",
+      "bytes": 1970,
+      "sha256": "60f29665cee0a88525d6f0383bc45959a6262d16fe35ef380aece1e0ea13c49b"
+    },
+    {
+      "path": "source/.research/submissions/20260717-d1-starmie-plain-ppo-control/cg/__init__.py",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "source/.research/submissions/20260817-d1-successor-final/deck.csv",
+      "bytes": 259,
+      "sha256": "2636fcaf8aedd7a156d0b2e33185b0e3878a9c2e2b77425f9203cc53e96e7b28"
+    },
+    {
+      "path": "source/.research/submissions/20260817-d1-successor-final/main.py",
+      "bytes": 1870,
+      "sha256": "683ba288e5d8d93b5a745de486e8ca811103352e3eecacd754eddaa17ed88357"
+    },
+    {
+      "path": "source/.research/submissions/20260817-d1-successor-final/r5_distilled_policy.py",
+      "bytes": 23605,
+      "sha256": "710b11d69346af6798be568e9de9c4466a7ad13c8620c22dffa75e2efa63fd0e"
+    },
+    {
+      "path": "source/.research/submissions/20260817-d1-successor-final/r5_policy_weights.manifest.json",
+      "bytes": 988,
+      "sha256": "a768c8f7bc6602dff76b4f9cac2fd9a7052712099d1fffecd663085f2b97eb29"
+    },
+    {
+      "path": "source/.research/submissions/20260817-d1-successor-final/r5_policy_weights.npz",
+      "bytes": 4026458,
+      "sha256": "c6a43f0f725e090a366e1f5052444a8df71dcc5bbe7091188afe9cbb8694e9e5"
+    },
+    {
+      "path": "source/.research/submissions/20260817-d1-successor-final/second_order_reader.py",
+      "bytes": 14091,
+      "sha256": "a63c75859d61877b00a3c1edd9f02906168b94fe0d06e1c59ac68bd6d1bdd35d"
+    },
+    {
+      "path": "source/.research/submissions/20260817-d1-successor-final/submission_manifest.json",
+      "bytes": 1087,
+      "sha256": "eeeeada0f7dca9ab28d1d0adf6e4f323f5d791a62ebcc594775ec555712547b9"
+    },
+    {
+      "path": "source/.research/submissions/20260817-d1-successor-final/cg/api.py",
+      "bytes": 26933,
+      "sha256": "593f1298e52a635f90f8f505a52113e9af114f444c293404e37906f18ee06ced"
+    },
+    {
+      "path": "source/.research/submissions/20260817-d1-successor-final/cg/cg.dll",
+      "bytes": 1523200,
+      "sha256": "c7c87eb76513784b0089b02dcf9d57466a1b0b2217df4cfc9af8c74deda3969f"
+    },
+    {
+      "path": "source/.research/submissions/20260817-d1-successor-final/cg/game.py",
+      "bytes": 2225,
+      "sha256": "3bd3d4f4a369a11e6d2f5da9094cf15ebc410a2221835e6417b7cff4883f1fc2"
+    },
+    {
+      "path": "source/.research/submissions/20260817-d1-successor-final/cg/libcg.so",
+      "bytes": 1338304,
+      "sha256": "75d7d619b56e5ad4c5caeadc698e61faecc650678dceab52ad687f08d5676beb"
+    },
+    {
+      "path": "source/.research/submissions/20260817-d1-successor-final/cg/sim.py",
+      "bytes": 1966,
+      "sha256": "e7a804ee4cd7c5a9a3b8dc91f9581ff3585f9431633a41f33d7707194cb31191"
+    },
+    {
+      "path": "source/.research/submissions/20260817-d1-successor-final/cg/utils.py",
+      "bytes": 1970,
+      "sha256": "60f29665cee0a88525d6f0383bc45959a6262d16fe35ef380aece1e0ea13c49b"
+    },
+    {
+      "path": "source/.research/submissions/20260817-d1-successor-final/cg/__init__.py",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "source/.research/final_day_submission_v1/REPORT.md",
+      "bytes": 2595,
+      "sha256": "7baf29413099723fa9d2b386b46ac6e2ea1519632c834c82ef3a34c59c28b875"
+    },
+    {
+      "path": "source/.research/final_day_submission_v1/UPLOAD_ATTEMPT_RECEIPT.json",
+      "bytes": 891,
+      "sha256": "60b2885ab0b8d8292dfd3376fec5aa892abe95f0bb87f832e3adc6142f71ad37"
+    },
+    {
+      "path": "source/.research/final_day_submission_v1/verify_final_bundle.py",
+      "bytes": 4093,
+      "sha256": "dba188f0a8cece851aca6119574cf6b809f4d7f3dab0a7ca157d2ac72810676d"
+    }
+  ],
+  "final_day_status": "KAGGLE_CREATE_SUBMISSION_REJECTED_NO_RECEIPT",
+  "derivative_equivalence": "See original package parity receipts; no new behavioral evaluation"
+}

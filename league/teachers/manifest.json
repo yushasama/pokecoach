@@ -1,0 +1,30 @@
+[
+  {
+    "notebook_outputs_exported": false,
+    "original_notebook_sha256": "26fb8081500415744786d391041f88b5c65ea78ec02279cd2dd2856823e2bf79",
+    "portable_notebook": "league/teachers/teacher_abomasnow.ipynb",
+    "source_code_sha256": "33eed287c99a070882ade8bd32eaea4e012d9e9fc3c05abcfdb1acf7ce6ad447",
+    "teacher_id": "teacher_abomasnow"
+  },
+  {
+    "notebook_outputs_exported": false,
+    "original_notebook_sha256": "48fd4a56d6f1b3cfac0d8638dd627969714269c54ac2fd472e8a5e6d1b07e635",
+    "portable_notebook": "league/teachers/teacher_lucario.ipynb",
+    "source_code_sha256": "4d46fdd8b5b3842d2e4458d587092456b5389ebd282f18cd4f193b4ece761677",
+    "teacher_id": "teacher_lucario"
+  },
+  {
+    "notebook_outputs_exported": false,
+    "original_notebook_sha256": "2ee5547b44628b6d9c010ba83275c92ee8e886f9eb2086d2efa7af4a3f1402ee",
+    "portable_notebook": "league/teachers/teacher_iono.ipynb",
+    "source_code_sha256": "b146adb3ec265753ad13d229aee7d2a2727f608fc0a45ab95e6195416d815701",
+    "teacher_id": "teacher_iono"
+  },
+  {
+    "notebook_outputs_exported": false,
+    "original_notebook_sha256": "ebc2881a9d8139c053b36157f94b3f992973d61b0b9b3607fa330baebaa60235",
+    "portable_notebook": "league/teachers/teacher_dragapult.ipynb",
+    "source_code_sha256": "ec3b811d0536b0c0e51878cc19b1ddc0db0c68347bdeaac4a6f784b7c3e028ba",
+    "teacher_id": "teacher_dragapult"
+  }
+]

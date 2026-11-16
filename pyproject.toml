@@ -1,0 +1,19 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "deepmew-ex"
+version = "0.1.0"
+requires-python = ">=3.11"
+dependencies = ["numpy>=1.26", "torch>=2.6"]
+
+[project.optional-dependencies]
+test = ["pytest>=8"]
+corpus = ["orjson>=3.11", "zstandard>=0.25"]
+
+[tool.setuptools.packages.find]
+include = ["deepmew_ex*", "training*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
