@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DeepMew Coach — Pokémon TCG practice</title>
+<style>
+  :root {
+    --bg: #0d1016; --panel: #161a23; --panel-2: #1d2230; --line: #2a3142;
+    --text: #e9edf4; --muted: #8d96a9; --accent: #f5c84b; --good: #45c389; --bad: #f2667a; --info: #6aa9ff;
+    --mat-a: #173326; --mat-b: #0f241b; --radius: 10px;
+    --card-w: 92px; --active-w: 124px; --hand-w: 100px; --pile-w: 64px;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; font: 14px/1.4 system-ui, -apple-system, "Segoe UI", sans-serif; background: var(--bg); color: var(--text); }
+  header { display: flex; flex-wrap: wrap; gap: 14px; align-items: center; padding: 10px 16px; border-bottom: 1px solid var(--line); background: var(--panel); position: sticky; top: 0; z-index: 20; }
+  header h1 { font-size: 17px; margin: 0; }
+  header h1 span { color: var(--accent); }
+  nav { display: flex; gap: 4px; background: var(--bg); padding: 3px; border-radius: 10px; border: 1px solid var(--line); }
+  nav button { border: 0; background: transparent; padding: 6px 14px; border-radius: 8px; color: var(--muted); }
+  nav button.on { background: var(--panel-2); color: var(--text); box-shadow: inset 0 0 0 1px var(--line); }
+  .chip-info { margin-left: auto; font-size: 12px; color: var(--muted); }
+  select, button, input { font: inherit; color: var(--text); background: var(--panel-2); border: 1px solid var(--line); border-radius: 8px; padding: 6px 10px; }
+  input { outline: none; } input:focus, select:focus { border-color: var(--info); }
+  button { cursor: pointer; transition: transform .08s ease, border-color .15s ease, background .15s ease; }
+  button:hover:not(:disabled) { border-color: var(--info); }
+  button:active:not(:disabled) { transform: scale(.97); }
+  button:disabled { opacity: .45; cursor: default; }
+  button.primary { background: var(--accent); color: #1b1607; border-color: var(--accent); font-weight: 600; }
+  button.danger:hover { border-color: var(--bad); color: #ffb3bd; }
+  .view { max-width: 1500px; margin: 0 auto; padding: 14px 16px 24px; }
+  .hidden { display: none !important; }
+  .busy { opacity: .7; pointer-events: none; }
+  .panel { background: var(--panel); border: 1px solid var(--line); border-radius: var(--radius); padding: 12px; }
+  .panel h2 { font-size: 11px; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); margin: 0 0 8px; }
+  .hint { font-size: 12px; color: var(--muted); }
+  .error { color: var(--bad); font-size: 12px; min-height: 16px; margin-top: 6px; }
+  .toast { position: fixed; left: 50%; bottom: 24px; transform: translateX(-50%); background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 10px 16px; z-index: 80; box-shadow: 0 10px 30px rgba(0,0,0,.5); }
+
+  /* ---------- deck builder ---------- */
+  .builder { display: grid; grid-template-columns: minmax(0, 1fr) 360px; gap: 14px; align-items: start; }
+  @media (max-width: 1000px) { .builder { grid-template-columns: 1fr; } }
+  .filters { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; margin-bottom: 10px; }
+  .filters input { flex: 1 1 220px; }
+  .seg { display: flex; gap: 2px; background: var(--bg); padding: 2px; border-radius: 8px; border: 1px solid var(--line); }
+  .seg button { border: 0; background: transparent; padding: 5px 10px; color: var(--muted); }
+  .seg button.on { background: var(--panel-2); color: var(--text); }
+  .pool-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(118px, 1fr)); gap: 10px; }
+  .pool-card { position: relative; cursor: pointer; border-radius: 8px; transition: transform .12s ease; }
+  .pool-card:hover { transform: translateY(-3px); }
+  .pool-card .card { width: 100%; }
+  .pool-card .in-deck { position: absolute; top: 6px; right: 6px; background: var(--accent); color: #1b1607; font-weight: 700; font-size: 12px; border-radius: 999px; padding: 1px 8px; box-shadow: 0 1px 4px rgba(0,0,0,.5); }
+  .pool-card .cap { font-size: 11px; color: var(--muted); margin-top: 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .more { display: block; margin: 12px auto 0; }
+  .decklist { position: sticky; top: 64px; max-height: calc(100vh - 80px); overflow: auto; }
+  .deck-head { display: flex; gap: 8px; align-items: center; margin-bottom: 8px; }
+  .deck-head input { flex: 1; }
+  .count { font-weight: 700; font-variant-numeric: tabular-nums; }
+  .count.ok { color: var(--good); }
+  .problems { font-size: 12px; color: #ffb3bd; margin: 6px 0; padding-left: 18px; }
+  .problems:empty { display: none; }
+  .ok-line { font-size: 12px; color: var(--good); margin: 6px 0; }
+  .group h3 { font-size: 12px; color: var(--muted); margin: 10px 0 4px; display: flex; justify-content: space-between; }
+  .row { display: grid; grid-template-columns: 34px minmax(0,1fr) auto; gap: 8px; align-items: center; padding: 3px 0; }
+  .row img, .row .thumb { width: 34px; border-radius: 4px; aspect-ratio: 274/381; object-fit: cover; background: #20283a; }
+  .row .nm { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-size: 13px; }
+  .row .ctl { display: flex; align-items: center; gap: 4px; }
+  .row .ctl button { padding: 1px 8px; }
+  .row .ctl b { min-width: 18px; text-align: center; font-variant-numeric: tabular-nums; }
+  .deck-actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+
+  /* ---------- play ---------- */
+  .lobby { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin-bottom: 12px; }
+  .lobby label { font-size: 12px; color: var(--muted); display: flex; gap: 6px; align-items: center; }
+  .opp-tag { font-size: 13px; color: var(--muted); }
+  .opp-tag b { color: var(--text); }
+  .play-grid { display: grid; grid-template-columns: minmax(0, 1fr) 330px; gap: 14px; }
+  @media (max-width: 1050px) { .play-grid { grid-template-columns: 1fr; } }
+  .mat { position: relative; border-radius: 16px; padding: 12px 120px 8px 14px; background: radial-gradient(ellipse at center, var(--mat-a) 0%, var(--mat-b) 75%); border: 1px solid #24463a; box-shadow: inset 0 0 60px rgba(0,0,0,.45); min-height: 620px; }
+  .mat-empty { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; color: rgba(255,255,255,.55); text-align: center; padding: 24px; }
+  .half { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; gap: 12px; align-items: center; }
+  .field { display: flex; flex-direction: column; align-items: center; gap: 10px; }
+  .opp .field { flex-direction: column-reverse; }
+  .prizes { display: grid; grid-template-columns: repeat(2, var(--pile-w)); gap: 4px; align-content: center; }
+  .piles { display: flex; flex-direction: column; gap: 8px; align-items: center; }
+  .bench { display: flex; gap: 8px; justify-content: center; min-height: calc(var(--card-w) * 1.39); flex-wrap: wrap; padding: 4px; border-radius: 10px; }
+  .slot { width: var(--card-w); aspect-ratio: 274 / 381; border: 1px dashed rgba(255,255,255,.14); border-radius: 7px; }
+  .active-spot { display: flex; justify-content: center; min-height: calc(var(--active-w) * 1.39); padding: 4px; border-radius: 10px; }
+  .turn .active-spot { box-shadow: 0 0 0 2px rgba(245,200,75,.35); background: rgba(245,200,75,.06); }
+  .midline { display: flex; align-items: center; justify-content: center; gap: 14px; margin: 8px 0; min-height: 34px; border-radius: 10px; color: rgba(255,255,255,.45); font-size: 11px; letter-spacing: .08em; text-transform: uppercase; }
+  .midline .card { width: 70px; }
+  .zone-label { font-size: 10px; letter-spacing: .08em; text-transform: uppercase; color: rgba(255,255,255,.45); text-align: center; margin-top: 2px; }
+  .opp-hand { display: flex; justify-content: center; margin-bottom: 6px; min-height: 20px; }
+  .opp-hand .card { width: 40px; margin-left: -18px; }
+  .opp-hand .card:first-child { margin-left: 0; }
+  .your-hand { display: flex; justify-content: center; padding: 12px 6px 4px; margin-top: 6px; border-top: 1px solid rgba(255,255,255,.08); flex-wrap: wrap; row-gap: 8px; min-height: 150px; }
+  .your-hand .card { width: var(--hand-w); margin-left: -14px; transition: transform .15s ease, box-shadow .15s ease; }
+  .your-hand .card:first-child { margin-left: 0; }
+  .your-hand .card:hover, .your-hand .card.armed { transform: translateY(-12px); z-index: 3; }
+  .end-turn { position: absolute; right: 14px; top: 50%; transform: translateY(-50%); width: 92px; padding: 14px 8px; font-weight: 700; border-radius: 12px; }
+  .end-turn.coach-pick { box-shadow: 0 0 0 3px var(--accent), 0 0 18px rgba(245,200,75,.7); }
+  .turn-tag { position: absolute; right: 14px; top: calc(50% + 46px); width: 92px; text-align: center; font-size: 11px; color: var(--muted); }
+  .card { position: relative; width: var(--card-w); aspect-ratio: 274 / 381; border-radius: 7px; background: #20283a; box-shadow: 0 2px 6px rgba(0,0,0,.45); user-select: none; flex: none; }
+  .card img { width: 100%; height: 100%; border-radius: 7px; display: block; object-fit: cover; pointer-events: none; }
+  .card .text { position: absolute; inset: 0; padding: 8px 6px; border-radius: 7px; background: linear-gradient(160deg, #2b3550, #1a2133); font-size: 11px; font-weight: 600; display: flex; align-items: center; justify-content: center; text-align: center; }
+  .active-spot .card { width: var(--active-w); }
+  .back { background: repeating-linear-gradient(135deg, #2f4b8f 0 6px, #27407a 6px 12px); border: 2px solid #c9d5f0; }
+  .back::after { content: ""; position: absolute; left: 50%; top: 50%; width: 34%; aspect-ratio: 1; transform: translate(-50%, -50%); border-radius: 50%; background: linear-gradient(#e9433f 0 47%, #222 47% 53%, #f4f4f4 53%); border: 2px solid #222; }
+  .pile { width: var(--pile-w); }
+  .pile .count { position: absolute; right: -6px; bottom: -6px; background: #0b0e14; border: 1px solid var(--line); border-radius: 999px; font-size: 11px; padding: 1px 7px; }
+  .clickable-pile { cursor: zoom-in; }
+  .badge { position: absolute; left: 50%; transform: translateX(-50%); bottom: -9px; background: rgba(10, 13, 19, .92); border: 1px solid var(--line); border-radius: 999px; font-size: 11px; padding: 1px 8px; white-space: nowrap; font-variant-numeric: tabular-nums; }
+  .badge.low { border-color: var(--bad); color: #ffb3bd; }
+  .dmg { position: absolute; top: 18%; right: -6px; background: var(--bad); color: white; font-weight: 700; font-size: 11px; border-radius: 999px; padding: 1px 6px; box-shadow: 0 1px 3px rgba(0,0,0,.5); }
+  .pips { position: absolute; left: 4px; bottom: 12px; display: flex; flex-wrap: wrap; gap: 2px; max-width: 70%; }
+  .pip { width: 12px; height: 12px; border-radius: 50%; border: 1px solid rgba(0,0,0,.6); box-shadow: 0 0 0 1px rgba(255,255,255,.4); display: inline-block; }
+  .tool { position: absolute; top: -7px; left: 4px; font-size: 10px; background: #3a2f63; border: 1px solid #7d6bd1; border-radius: 6px; padding: 0 5px; max-width: 90%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .cond { position: absolute; top: -7px; right: 4px; font-size: 10px; background: #5a1f2a; border: 1px solid var(--bad); border-radius: 6px; padding: 0 5px; }
+  .playable { cursor: pointer; box-shadow: 0 0 0 2px var(--info), 0 0 14px rgba(106,169,255,.55); }
+  .coach { box-shadow: 0 0 0 3px var(--accent), 0 0 18px rgba(245,200,75,.7) !important; }
+  .armed { box-shadow: 0 0 0 3px var(--good), 0 0 18px rgba(69,195,137,.7) !important; }
+  .drop-target { cursor: pointer; outline: 3px dashed var(--good); outline-offset: 3px; background: rgba(69,195,137,.08); }
+  .drop-target.coach-dest { outline-color: var(--accent); }
+  .drag-over { background: rgba(69,195,137,.22) !important; }
+  .hover-target { box-shadow: 0 0 0 3px #ffffff, 0 0 18px rgba(255,255,255,.6) !important; }
+  .picked { outline: 3px solid var(--good); outline-offset: 2px; }
+  .stack { display: flex; flex-direction: column; gap: 12px; }
+  .prompt { font-size: 15px; font-weight: 600; margin-bottom: 6px; }
+  details summary { cursor: pointer; font-size: 12px; color: var(--muted); margin: 6px 0; }
+  .options { display: flex; flex-direction: column; gap: 5px; max-height: 240px; overflow: auto; }
+  .opt { display: flex; gap: 8px; align-items: center; text-align: left; padding: 7px 9px; width: 100%; }
+  .opt.coached { border-color: var(--accent); }
+  .opt.selected { border-color: var(--good); background: #1c2c26; }
+  .opt .tag { margin-left: auto; font-size: 11px; color: var(--accent); white-space: nowrap; }
+  .actions { display: flex; gap: 8px; margin-top: 8px; flex-wrap: wrap; }
+  .coach-pick-line { font-size: 15px; font-weight: 600; margin-bottom: 6px; }
+  .coach-pick-line span { color: var(--accent); }
+  .why { margin: 6px 0 10px; padding-left: 18px; font-size: 13px; }
+  .why li { margin-bottom: 4px; }
+  .alt-row { display: grid; grid-template-columns: minmax(0, 1fr) 46px; gap: 6px; font-size: 12px; margin-bottom: 5px; color: var(--muted); }
+  .alt-row.top { color: var(--text); }
+  .bar { grid-column: 1 / -1; height: 4px; border-radius: 3px; background: #2b3140; overflow: hidden; margin-top: -2px; }
+  .bar > i { display: block; height: 100%; background: var(--info); }
+  .alt-row.top .bar > i { background: var(--accent); }
+  .prob { text-align: right; font-variant-numeric: tabular-nums; }
+  .source { font-size: 11px; color: var(--muted); margin-top: 6px; }
+  .log { max-height: 200px; overflow: auto; font-size: 12px; color: var(--muted); display: flex; flex-direction: column-reverse; }
+  .log div { padding: 2px 0; border-bottom: 1px dashed #222a38; }
+  .banner { display: none; margin-bottom: 10px; padding: 10px 14px; border-radius: var(--radius); font-weight: 600; }
+  .banner.win { display: flex; background: rgba(69,195,137,.15); border: 1px solid var(--good); }
+  .banner.loss { display: flex; background: rgba(242,102,122,.12); border: 1px solid var(--bad); }
+  .banner.draw { display: flex; background: rgba(106,169,255,.12); border: 1px solid var(--info); }
+  .banner { align-items: center; justify-content: space-between; gap: 10px; }
+  .menu { position: fixed; z-index: 50; background: var(--panel); border: 1px solid var(--info); border-radius: 12px; padding: 8px; display: flex; flex-direction: column; gap: 6px; min-width: 260px; max-width: 360px; box-shadow: 0 10px 30px rgba(0,0,0,.55); }
+  .menu button { text-align: left; }
+  .menu button.coach-pick { border-color: var(--accent); }
+  .menu h3 { margin: 2px 4px 2px; font-size: 13px; }
+  .atk { display: grid; grid-template-columns: auto 1fr auto; gap: 4px 8px; align-items: center; padding: 8px 10px; }
+  .atk .cost { display: flex; gap: 2px; }
+  .atk .name { font-weight: 600; }
+  .atk .damage { font-weight: 700; font-variant-numeric: tabular-nums; }
+  .atk .text { grid-column: 1 / -1; font-size: 11px; color: var(--muted); }
+  .modal-back { position: fixed; inset: 0; z-index: 45; background: rgba(5, 7, 11, .62); display: flex; align-items: center; justify-content: center; padding: 20px; }
+  .modal { background: var(--panel); border: 1px solid var(--line); border-radius: 14px; padding: 16px; max-width: min(920px, 96vw); max-height: 88vh; overflow: auto; box-shadow: 0 20px 60px rgba(0,0,0,.6); }
+  .modal h3 { margin: 0 0 4px; font-size: 16px; }
+  .modal .sub { color: var(--muted); font-size: 12px; margin-bottom: 12px; }
+  .pick-grid { display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; }
+  .pick-grid .card { width: 110px; cursor: pointer; }
+  .pick-grid .card.picked { transform: translateY(-6px); }
+  .pick-grid .coach-star { position: absolute; top: -9px; right: -6px; background: var(--accent); color: #1b1607; font-size: 11px; font-weight: 700; border-radius: 999px; padding: 1px 6px; }
+  .pick-buttons { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; }
+  .pick-buttons button { min-width: 120px; padding: 10px 14px; }
+  .pick-buttons button.coach-pick { border-color: var(--accent); }
+  .modal-actions { display: flex; gap: 8px; justify-content: flex-end; margin-top: 14px; }
+  .zoom { position: fixed; z-index: 60; pointer-events: none; width: 260px; border-radius: 12px; box-shadow: 0 12px 40px rgba(0,0,0,.6); display: none; }
+  @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+</style>
+</head>
+<body>
+<header>
+  <h1>DeepMew <span>Coach</span></h1>
+  <nav><button id="tabBuild" class="on">Deck Builder</button><button id="tabPlay">Play</button></nav>
+  <span class="chip-info" id="coachChip">loading…</span>
+</header>
+
+<!-- ============ DECK BUILDER ============ -->
+<section class="view" id="buildView">
+  <div class="builder">
+    <div class="panel">
+      <div class="filters">
+        <input id="search" placeholder="Search cards (e.g. Pikachu, Ultra Ball, Energy)…" autocomplete="off">
+        <div class="seg" id="kindSeg"><button data-kind="" class="on">All</button><button data-kind="pokemon">Pokémon</button><button data-kind="trainer">Trainer</button><button data-kind="energy">Energy</button></div>
+        <div class="seg" id="stageSeg"><button data-stage="" class="on">Any stage</button><button data-stage="Basic">Basic</button><button data-stage="Stage 1">Stage 1</button><button data-stage="Stage 2">Stage 2</button><button data-stage="ex">ex</button></div>
+      </div>
+      <div class="hint" id="poolInfo" style="margin-bottom:8px"></div>
+      <div class="pool-grid" id="poolGrid"></div>
+      <button class="more" id="moreCards">Show more</button>
+    </div>
+    <aside class="panel decklist">
+      <div class="deck-head"><input id="deckName" placeholder="Name your deck"><span class="count" id="deckCount">0/60</span></div>
+      <ul class="problems" id="deckProblems"></ul>
+      <div id="deckGroups"><div class="hint">Click cards on the left to add them. Rules: exactly 60 cards, up to 4 copies of a card (Basic Energy unlimited), at least 1 Basic Pokémon, at most 1 ACE SPEC.</div></div>
+      <div class="deck-actions">
+        <button class="primary" id="saveDeck">Save deck</button>
+        <select id="loadDeck"><option value="">Load / start from…</option></select>
+        <button id="newDeck">New</button>
+        <button class="danger" id="deleteDeck">Delete</button>
+      </div>
+      <button id="playThis" style="width:100%;margin-top:10px">Play with this deck →</button>
+      <div class="error" id="deckError"></div>
+    </aside>
+  </div>
+</section>
+
+<!-- ============ PLAY ============ -->
+<section class="view hidden" id="playView">
+  <div class="lobby">
+    <label>Your deck <select id="playDeck"></select></label>
+    <label>Coach hints <select id="coachOn"><option value="1">On</option><option value="0">Off (practice)</option></select></label>
+    <button class="primary" id="findOpponent">Find opponent</button>
+    <span class="opp-tag" id="oppTag"></span>
+  </div>
+  <div class="play-grid" id="app">
+    <section>
+      <div class="banner" id="banner"><span id="bannerText"></span><button class="primary" id="rematch">Play again</button></div>
+      <div class="mat" id="mat">
+        <div class="mat-empty" id="matEmpty">Pick a saved deck and press <b>&nbsp;Find opponent&nbsp;</b> — you'll face a random AI from our models.</div>
+        <div class="opp-hand" id="oppHand"></div>
+        <div class="half opp" id="oppHalf"></div>
+        <div class="midline" id="midline" data-zone="play"></div>
+        <div class="half you" id="yourHalf"></div>
+        <div class="your-hand" id="yourHand"></div>
+        <button class="end-turn primary hidden" id="endTurn">End Turn</button>
+        <div class="turn-tag" id="turnTag"></div>
+      </div>
+    </section>
+    <aside class="stack">
+      <div class="panel">
+        <div class="prompt" id="prompt">Waiting for a game…</div>
+        <div class="hint" id="hint">Click a card, then where it goes — or drag it. Click your Active Pokémon to attack.</div>
+        <div class="actions">
+          <button id="confirm" class="primary hidden">Confirm</button>
+          <button id="takeCoach" class="hidden">Play coach's move</button>
+        </div>
+        <div class="error" id="error"></div>
+        <details id="allMoves"><summary>All legal moves</summary><div class="options" id="options"></div></details>
+      </div>
+      <div class="panel" id="coachPanel"><h2 id="coachTitle">Coach</h2><div id="coach"><div class="hint">The coach's advice appears on your turn.</div></div></div>
+      <div class="panel"><h2>Game log</h2><div class="log" id="log"></div></div>
+    </aside>
+  </div>
+</section>
+<img class="zoom" id="zoom" alt="">
+
+<script>
+const $ = (id) => document.getElementById(id);
+const ENERGY = { Grass: '#46b04a', Fire: '#ec5b3a', Water: '#3d9be9', Lightning: '#f4d03f', Psychic: '#a35fd0', Fighting: '#c0703a', Darkness: '#3c4048', Metal: '#9aa4b1', Dragon: '#c9a227', Colorless: '#eeeeee', Rainbow: 'conic-gradient(red, orange, yellow, green, blue, violet, red)', 'Team Rocket': '#6b2d5c' };
+const BOARD_ZONES = new Set(['active', 'bench', 'hand']);
+let images = { base: '', suffix: '', cards: {} }, meta = null, pool = [], byId = new Map();
+let state = null, chosen = new Set(), busy = false, armed = null, byPrimary = new Map();
+
+async function api(path, body) {
+  const response = await fetch(path, body === undefined ? {} : { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
+  const data = await response.json();
+  if (!response.ok || data.error) throw new Error(data.error || response.statusText);
+  return data;
+}
+const esc = (text) => String(text ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+const imageUrl = (id) => images.cards[id] ? images.base + images.cards[id] + images.suffix : null;
+const pips = (names) => names.map((e) => `<span class="pip" title="${esc(e)}" style="background:${ENERGY[e] || '#888'}"></span>`).join('');
+function toast(text) { const t = document.createElement('div'); t.className = 'toast'; t.textContent = text; document.body.appendChild(t); setTimeout(() => t.remove(), 2200); }
+function cardFace(id, name, lazy = false) {
+  const url = imageUrl(id);
+  return url ? `<img src="${url}" alt="${esc(name)}" ${lazy ? 'loading="lazy"' : ''} onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'text',textContent:this.alt}))">` : `<div class="text">${esc(name || 'Card')}</div>`;
+}
+function showZoom(el) {
+  const url = imageUrl(el.dataset.id); if (!url) return;
+  const zoom = $('zoom'), rect = el.getBoundingClientRect();
+  zoom.src = url.replace('_SM.png', '_LG.png');
+  zoom.onerror = () => { zoom.onerror = null; zoom.src = url; };
+  zoom.style.display = 'block';
+  zoom.style.left = (rect.right + 270 < innerWidth ? rect.right + 10 : Math.max(8, rect.left - 270)) + 'px';
+  zoom.style.top = Math.max(8, Math.min(rect.top - 60, innerHeight - 370)) + 'px';
+}
+function hideZoom() { $('zoom').style.display = 'none'; }
+function zoomable(root) { root.querySelectorAll('[data-id]').forEach((el) => { el.addEventListener('mouseenter', () => showZoom(el)); el.addEventListener('mouseleave', hideZoom); }); }
+
+/* ===================== views ===================== */
+function showView(name) {
+  $('buildView').classList.toggle('hidden', name !== 'build');
+  $('playView').classList.toggle('hidden', name !== 'play');
+  $('tabBuild').classList.toggle('on', name === 'build');
+  $('tabPlay').classList.toggle('on', name === 'play');
+  hideZoom();
+}
+$('tabBuild').onclick = () => showView('build');
+$('tabPlay').onclick = () => showView('play');
+
+/* ===================== deck builder ===================== */
+let deck = new Map(), filterKind = '', filterStage = '', shown = 60, loadedName = '';
+const nameOf = (id) => byId.get(id)?.name || `#${id}`;
+const isBasicEnergy = (id) => byId.get(id)?.type === 'Basic Energy';
+const deckSize = () => [...deck.values()].reduce((a, b) => a + b, 0);
+const copiesByName = (name) => [...deck].filter(([id]) => nameOf(id) === name && !isBasicEnergy(id)).reduce((a, [, n]) => a + n, 0);
+function deckProblems() {
+  const issues = [], size = deckSize();
+  if (size !== 60) issues.push(`${size} of 60 cards`);
+  const names = new Map();
+  for (const [id, n] of deck) if (!isBasicEnergy(id)) names.set(nameOf(id), (names.get(nameOf(id)) || 0) + n);
+  const over = [...names].filter(([, n]) => n > 4).map(([name]) => name);
+  if (over.length) issues.push(`More than 4 copies: ${over.join(', ')}`);
+  if (![...deck.keys()].some((id) => byId.get(id)?.kind === 'pokemon' && byId.get(id)?.stage === 'Basic')) issues.push('Needs at least one Basic Pokémon');
+  const aces = [...deck].filter(([id]) => byId.get(id)?.aceSpec).reduce((a, [, n]) => a + n, 0);
+  if (aces > 1) issues.push(`Only 1 ACE SPEC allowed (has ${aces})`);
+  return issues;
+}
+function addCard(id) {
+  const card = byId.get(id);
+  if (deckSize() >= 60) return toast('Deck is full (60 cards)');
+  if (!isBasicEnergy(id) && copiesByName(card.name) >= 4) return toast(`Max 4 copies of ${card.name}`);
+  if (card.aceSpec && [...deck].some(([other]) => byId.get(other)?.aceSpec)) return toast('Only 1 ACE SPEC per deck');
+  deck.set(id, (deck.get(id) || 0) + 1); renderDeck(); renderPool(false);
+}
+function removeCard(id) { const n = (deck.get(id) || 0) - 1; n > 0 ? deck.set(id, n) : deck.delete(id); renderDeck(); renderPool(false); }
+function renderPool(reset = true) {
+  if (reset) shown = 60;
+  const q = $('search').value.trim().toLowerCase();
+  const rows = pool.filter((c) => (!filterKind || c.kind === filterKind) && (!filterStage || (filterStage === 'ex' ? c.ex : c.stage === filterStage)) && (!q || c.name.toLowerCase().includes(q) || c.type.toLowerCase().includes(q)));
+  $('poolInfo').textContent = `${rows.length} cards${rows.length > shown ? ` · showing ${shown}` : ''}`;
+  $('poolGrid').innerHTML = rows.slice(0, shown).map((c) => `<div class="pool-card" data-add="${c.id}" title="${esc(c.name)} — ${esc(c.type)}${c.hp ? ' · ' + c.hp + ' HP' : ''}">
+      <div class="card" data-id="${c.id}">${cardFace(c.id, c.name, true)}</div>${deck.get(c.id) ? `<span class="in-deck">×${deck.get(c.id)}</span>` : ''}
+      <div class="cap">${esc(c.name)}</div></div>`).join('');
+  $('moreCards').classList.toggle('hidden', rows.length <= shown);
+  $('poolGrid').querySelectorAll('[data-add]').forEach((el) => el.addEventListener('click', () => addCard(Number(el.dataset.add))));
+  zoomable($('poolGrid'));
+}
+function renderDeck() {
+  const size = deckSize(), issues = deckProblems();
+  $('deckCount').textContent = `${size}/60`;
+  $('deckCount').classList.toggle('ok', !issues.length);
+  $('deckProblems').innerHTML = size ? issues.map((i) => `<li>${esc(i)}</li>`).join('') : '';
+  const groups = [['Pokémon', 'pokemon'], ['Trainers', 'trainer'], ['Energy', 'energy']];
+  if (!size) return void ($('deckGroups').innerHTML = '<div class="hint">Click cards on the left to add them. Rules: exactly 60 cards, up to 4 copies of a card (Basic Energy unlimited), at least 1 Basic Pokémon, at most 1 ACE SPEC.</div>');
+  $('deckGroups').innerHTML = (issues.length ? '' : '<div class="ok-line">✓ Legal deck</div>') + groups.map(([title, kind]) => {
+    const rows = [...deck].filter(([id]) => byId.get(id)?.kind === kind).sort((a, b) => nameOf(a[0]).localeCompare(nameOf(b[0])));
+    if (!rows.length) return '';
+    return `<div class="group"><h3><span>${title}</span><span>${rows.reduce((a, [, n]) => a + n, 0)}</span></h3>` + rows.map(([id, n]) => `
+      <div class="row"><div data-id="${id}">${imageUrl(id) ? `<img src="${imageUrl(id)}" alt="">` : '<div class="thumb"></div>'}</div>
+      <span class="nm" title="${esc(nameOf(id))}">${esc(nameOf(id))}</span>
+      <span class="ctl"><button data-minus="${id}">−</button><b>${n}</b><button data-plus="${id}">+</button></span></div>`).join('') + '</div>';
+  }).join('');
+  $('deckGroups').querySelectorAll('[data-minus]').forEach((b) => b.onclick = () => removeCard(Number(b.dataset.minus)));
+  $('deckGroups').querySelectorAll('[data-plus]').forEach((b) => b.onclick = () => addCard(Number(b.dataset.plus)));
+  zoomable($('deckGroups'));
+}
+const deckList = () => [...deck].flatMap(([id, n]) => Array(n).fill(id));
+function renderDeckMenus() {
+  const saved = meta.decks.filter((d) => d.saved), samples = meta.decks.filter((d) => !d.saved);
+  const opts = (rows) => rows.map((d) => `<option value="${esc(d.name)}">${esc(d.name)}</option>`).join('');
+  $('loadDeck').innerHTML = `<option value="">Load / start from…</option>${saved.length ? `<optgroup label="Your decks">${opts(saved)}</optgroup>` : ''}<optgroup label="Sample decks (templates)">${opts(samples)}</optgroup>`;
+  const current = $('playDeck').value;
+  $('playDeck').innerHTML = saved.length ? opts(saved) : '<option value="">— save a deck first —</option>';
+  if (current && saved.some((d) => d.name === current)) $('playDeck').value = current;
+  $('findOpponent').disabled = !saved.length;
+}
+$('search').addEventListener('input', () => renderPool());
+$('kindSeg').querySelectorAll('button').forEach((b) => b.onclick = () => { filterKind = b.dataset.kind; $('kindSeg').querySelectorAll('button').forEach((x) => x.classList.toggle('on', x === b)); renderPool(); });
+$('stageSeg').querySelectorAll('button').forEach((b) => b.onclick = () => { filterStage = b.dataset.stage; $('stageSeg').querySelectorAll('button').forEach((x) => x.classList.toggle('on', x === b)); renderPool(); });
+$('moreCards').onclick = () => { shown += 60; renderPool(false); };
+$('newDeck').onclick = () => { deck = new Map(); loadedName = ''; $('deckName').value = ''; renderDeck(); renderPool(false); };
+$('loadDeck').onchange = async () => {
+  const name = $('loadDeck').value; if (!name) return;
+  try {
+    const data = await api('/api/deck?name=' + encodeURIComponent(name));
+    deck = new Map(); for (const id of data.cards) deck.set(id, (deck.get(id) || 0) + 1);
+    const saved = meta.decks.find((d) => d.name === name)?.saved;
+    loadedName = saved ? name : '';
+    $('deckName').value = saved ? name : 'My ' + name.replace(/^Sample: /, '');
+    renderDeck(); renderPool(false);
+  } catch (error) { $('deckError').textContent = error.message; }
+  $('loadDeck').value = '';
+};
+$('saveDeck').onclick = async () => {
+  $('deckError').textContent = '';
+  const name = $('deckName').value.trim();
+  if (!name) return void ($('deckError').textContent = 'Give your deck a name first.');
+  try { meta = await api('/api/decks/save', { name, cards: deckList() }); loadedName = name; renderDeckMenus(); $('playDeck').value = name; toast(`Saved “${name}”`); }
+  catch (error) { $('deckError').textContent = error.message; }
+};
+$('deleteDeck').onclick = async () => {
+  const name = loadedName || $('deckName').value.trim();
+  if (!meta.decks.some((d) => d.saved && d.name === name)) return toast('Load one of your saved decks to delete it');
+  if (!confirm(`Delete “${name}”? This can't be undone.`)) return;
+  meta = await api('/api/decks/delete', { name }); renderDeckMenus(); $('newDeck').click(); toast('Deleted');
+};
+$('playThis').onclick = async () => {
+  const name = $('deckName').value.trim();
+  if (!meta.decks.some((d) => d.saved && d.name === name) || name !== loadedName) { await $('saveDeck').onclick(); if (name !== loadedName) return; }
+  $('playDeck').value = name; showView('play');
+};
+
+/* ===================== play ===================== */
+async function run(task) {
+  if (busy) return;
+  busy = true; $('app').classList.add('busy'); $('error').textContent = ''; closePopups();
+  try { const view = await task(); if (view) render(view); } catch (error) { $('error').textContent = error.message; }
+  finally { busy = false; $('app').classList.remove('busy'); }
+}
+const play = (positions) => run(() => api('/api/move', { positions }));
+const key = (t) => `${t.side}:${t.zone}:${t.index}`;
+const coachSet = () => new Set(state && state.coach && $('coachOn').value === '1' ? state.coach.pick : []);
+const isMain = () => state && state.context === 'Main';
+const multiPick = () => state && (state.maxCount > 1 || state.minCount !== 1);
+function plainCard(card, k, extra = '') { return `<div class="card" data-key="${k}" data-id="${card.id}" ${extra}>${cardFace(card.id, card.name)}</div>`; }
+function monCard(mon, k, conditions) {
+  if (!mon) return `<div class="card back"></div>`;
+  const damage = Math.max(0, (mon.maxHp || 0) - (mon.hp || 0));
+  return `<div class="card" data-key="${k}" data-id="${mon.id}" title="${esc(mon.name)}${mon.stack.length ? ' (from ' + esc(mon.stack.join(' → ')) + ')' : ''}">
+    ${cardFace(mon.id, mon.name)}${mon.tools.length ? `<span class="tool">${esc(mon.tools.join(', '))}</span>` : ''}
+    ${conditions && conditions.length ? `<span class="cond">${esc(conditions.join(', '))}</span>` : ''}${damage ? `<span class="dmg">-${damage}</span>` : ''}
+    <span class="pips">${pips(mon.energy)}</span><span class="badge ${mon.maxHp && mon.hp / mon.maxHp < .34 ? 'low' : ''}">${mon.hp}/${mon.maxHp}</span></div>`;
+}
+function halfHtml(side, who) {
+  const prizes = Array.from({ length: Math.max(side.prizesLeft, 0) }, () => '<div class="card pile back"></div>').join('') || '<div class="zone-label">no prizes</div>';
+  const bench = Array.from({ length: 5 }, (_, i) => side.bench[i] ? monCard(side.bench[i], `${who}:bench:${i}`) : '<div class="slot"></div>').join('');
+  const active = side.active.length ? side.active.map((m, i) => monCard(m, `${who}:active:${i}`, side.conditions)).join('') : `<div class="slot" style="width:var(--active-w)"></div>`;
+  const deckPile = `<div><div class="card pile ${side.deckCount ? 'back' : 'slot'}">${side.deckCount ? `<span class="count">${side.deckCount}</span>` : ''}</div><div class="zone-label">Deck</div></div>`;
+  const top = side.discardTop;
+  const discard = `<div><div class="card pile clickable-pile ${top ? '' : 'slot'}" data-discard="${who}" ${top ? `data-id="${top.id}"` : ''}>${top ? cardFace(top.id, top.name) + `<span class="count">${side.discardCount}</span>` : ''}</div><div class="zone-label">Discard</div></div>`;
+  return `<div class="prizes">${prizes}</div><div class="field"><div class="bench" data-zone="bench" data-side="${who}">${bench}</div><div class="active-spot" data-zone="active" data-side="${who}">${active}</div></div><div class="piles">${deckPile}${discard}</div>`;
+}
+function destinationOf(option) {
+  if (option.targets.length > 1) return key(option.targets[1]);
+  if (option.kind === 'Play') { const card = (state.board.you.hand || [])[option.targets[0]?.index]; return card && card.kind === 'pokemon' ? 'zone:bench' : 'zone:play'; }
+  return null;
+}
+function render(view) {
+  closeModals();
+  state = view; chosen = new Set(); armed = null; closePopups();
+  const board = view.board, hints = $('coachOn').value === '1', coach = coachSet(), live = !view.result;
+  $('matEmpty').classList.add('hidden');
+  $('oppTag').innerHTML = `Opponent: <b>${esc(view.aiBrain)}</b> · ${esc(view.decks.ai)}`;
+  $('oppHand').innerHTML = Array.from({ length: board.opponent.handCount || 0 }, () => '<div class="card back"></div>').join('');
+  $('oppHalf').innerHTML = halfHtml(board.opponent, 'opponent');
+  $('yourHalf').innerHTML = halfHtml(board.you, 'you');
+  $('oppHalf').classList.toggle('turn', !board.yourTurn && live);
+  $('yourHalf').classList.toggle('turn', board.yourTurn && live);
+  $('yourHand').innerHTML = (board.you.hand || []).map((c, i) => plainCard(c, `you:hand:${i}`, 'draggable="true"')).join('') || '<div class="zone-label">empty hand</div>';
+  const stadium = board.stadium[0];
+  $('midline').innerHTML = stadium ? plainCard(stadium, 'stadium:stadium:0') : '';
+  $('log').innerHTML = view.log.slice().reverse().map((line) => `<div>${esc(line)}</div>`).join('');
+  $('banner').className = 'banner' + (view.result ? ' ' + view.result : '');
+  $('bannerText').textContent = view.result === 'win' ? 'You win! 🎉' : view.result === 'loss' ? 'The AI wins this one.' : view.result === 'draw' ? 'Draw.' : '';
+  $('prompt').textContent = view.result ? 'Game over' : view.prompt;
+  $('turnTag').textContent = !live ? '' : board.yourTurn ? `Turn ${board.turn} · you` : 'Opponent';
+  byPrimary = new Map();
+  for (const option of view.options) { if (!option.targets[0]) continue; const k = key(option.targets[0]); if (!byPrimary.has(k)) byPrimary.set(k, []); byPrimary.get(k).push(option); }
+  document.querySelectorAll('.mat .card[data-key]').forEach((el) => {
+    const options = byPrimary.get(el.dataset.key);
+    if (options && live) {
+      el.classList.add('playable');
+      if (options.some((o) => coach.has(o.position))) el.classList.add('coach');
+      el.addEventListener('click', (event) => onCard(event, el, options));
+      if (el.getAttribute('draggable')) el.addEventListener('dragstart', (event) => { arm(el, options); event.dataTransfer.setData('text/plain', el.dataset.key); });
+    } else if (el.getAttribute('draggable')) el.removeAttribute('draggable');
+  });
+  zoomable($('mat'));
+  document.querySelectorAll('[data-discard]').forEach((el) => el.addEventListener('click', (event) => { event.stopPropagation(); showDiscard(el.dataset.discard); }));
+  const endOption = view.options.find((o) => o.kind === 'End');
+  $('endTurn').classList.toggle('hidden', !live || !endOption);
+  $('endTurn').classList.toggle('coach-pick', !!endOption && coach.has(endOption.position));
+  $('endTurn').onclick = () => { const others = view.options.filter((o) => o.kind !== 'End').length; if (others && !confirm(`You still have ${others} possible action${others > 1 ? 's' : ''}. End your turn?`)) return; play([endOption.position]); };
+  $('options').innerHTML = view.options.map((o) => `<button class="opt ${hints && coach.has(o.position) ? 'coached' : ''}" data-pos="${o.position}"><span>${esc(o.label)}</span>${hints && coach.has(o.position) ? '<span class="tag">coach</span>' : ''}</button>`).join('');
+  $('options').querySelectorAll('.opt').forEach((b) => {
+    const o = view.options.find((x) => x.position === Number(b.dataset.pos));
+    b.addEventListener('click', () => select(o.position));
+    b.addEventListener('mouseenter', () => o.targets.forEach((t) => document.querySelector(`.mat [data-key="${key(t)}"]`)?.classList.add('hover-target')));
+    b.addEventListener('mouseleave', () => document.querySelectorAll('.hover-target').forEach((el) => el.classList.remove('hover-target')));
+  });
+  $('confirm').classList.toggle('hidden', !live || !multiPick());
+  updateConfirm();
+  $('takeCoach').classList.toggle('hidden', !live || !view.coach || !hints);
+  renderCoach(view, hints);
+  if (live && !isMain() && view.options.length && view.options.some((o) => !o.targets[0] || !BOARD_ZONES.has(o.targets[0].zone))) openPicker();
+}
+function renderCoach(view, hints) {
+  const panel = $('coach');
+  $('coachTitle').textContent = `Coach · ${meta?.coach || ''}`;
+  if (!hints) return void (panel.innerHTML = '<div class="hint">Hints are off — you are on your own. Turn them on in the lobby.</div>');
+  if (view.result) return void (panel.innerHTML = `<div class="hint">${view.result === 'win' ? 'Nice game.' : 'Every loss is practice. Try another opponent.'}</div>`);
+  if (!view.coach) return void (panel.innerHTML = '<div class="hint">Waiting for your turn…</div>');
+  const c = view.coach;
+  const why = (c.why || []).map((line) => `<li>${esc(line)}</li>`).join('');
+  const alts = c.ranked.map((row, i) => `<div class="alt-row ${i === 0 ? 'top' : ''}"><span>${esc(row.label)}</span><span class="prob">${(row.probability * 100).toFixed(0)}%</span><div class="bar"><i style="width:${(row.probability * 100).toFixed(1)}%"></i></div></div>`).join('');
+  panel.innerHTML = `<div class="coach-pick-line">⭐ <span>${esc(c.pickLabels.join(' + ') || 'Choose nothing')}</span></div>
+    ${why ? `<ul class="why">${why}</ul>` : ''}${c.ranked.length > 1 ? `<h2 style="margin-top:8px">How the coach rates the options</h2>${alts}` : ''}
+    <div class="source">${esc(c.source)}${c.source.startsWith('lethal') ? ' 🏆' : ''}</div>`;
+}
+function select(position) {
+  if (busy || !state || state.result) return;
+  if (!multiPick()) return play([position]);
+  chosen.has(position) ? chosen.delete(position) : chosen.add(position);
+  document.querySelectorAll('.opt').forEach((b) => b.classList.toggle('selected', chosen.has(Number(b.dataset.pos))));
+  document.querySelectorAll('.mat .card[data-key]').forEach((el) => el.classList.toggle('picked', (byPrimary.get(el.dataset.key) || []).some((o) => chosen.has(o.position))));
+  document.querySelectorAll('.pick-grid .card[data-pos], .pick-buttons button').forEach((el) => el.classList.toggle('picked', chosen.has(Number(el.dataset.pos))));
+  updateConfirm();
+}
+function updateConfirm() { const ok = state && chosen.size >= state.minCount && chosen.size <= state.maxCount; $('confirm').disabled = !ok; const m = $('modalConfirm'); if (m) m.disabled = !ok; }
+function onCard(event, el, options) {
+  event.stopPropagation();
+  if (armed && armed.el === el) return disarm();
+  if (!isMain()) { if (options.length === 1) return select(options[0].position); return popupMenu(el, options); }
+  const [side, zone] = el.dataset.key.split(':');
+  if (zone === 'hand') return arm(el, options);
+  if (zone === 'active' && side === 'you') return attackPanel(el, options);
+  if (options.length === 1) return select(options[0].position);
+  popupMenu(el, options);
+}
+function arm(el, options) {
+  disarm(false); armed = { el, options, destinations: new Map() }; el.classList.add('armed');
+  const coach = coachSet();
+  for (const option of options) { const d = destinationOf(option) || 'zone:play'; if (!armed.destinations.has(d)) armed.destinations.set(d, []); armed.destinations.get(d).push(option); }
+  for (const [destination, opts] of armed.destinations) {
+    const target = destination === 'zone:bench' ? document.querySelector('.you [data-zone="bench"]') : destination === 'zone:play' ? $('midline') : document.querySelector(`.mat [data-key="${destination}"]`);
+    if (!target) continue;
+    target.classList.add('drop-target'); if (opts.some((o) => coach.has(o.position))) target.classList.add('coach-dest');
+    if (destination === 'zone:play' && !state.board.stadium.length) target.textContent = 'Drop here to play';
+    target.dataset.destination = destination;
+    target.addEventListener('click', onDestination);
+    target.addEventListener('dragover', (event) => { event.preventDefault(); target.classList.add('drag-over'); });
+    target.addEventListener('dragleave', () => target.classList.remove('drag-over'));
+    target.addEventListener('drop', (event) => { event.preventDefault(); onDestination({ currentTarget: target, stopPropagation() {} }); });
+  }
+  $('hint').textContent = 'Now click (or drop on) a highlighted spot. Click the card again to cancel.';
+}
+function onDestination(event) {
+  event.stopPropagation(); if (!armed) return;
+  const opts = armed.destinations.get(event.currentTarget.dataset.destination) || [], el = event.currentTarget;
+  disarm();
+  if (opts.length === 1) return select(opts[0].position);
+  if (opts.length > 1) popupMenu(el, opts);
+}
+function disarm(resetHint = true) {
+  document.querySelectorAll('.armed').forEach((el) => el.classList.remove('armed'));
+  document.querySelectorAll('.drop-target').forEach((el) => { el.classList.remove('drop-target', 'coach-dest', 'drag-over'); el.removeEventListener('click', onDestination); if (el.id === 'midline' && !(state && state.board.stadium.length)) el.textContent = ''; });
+  armed = null; if (resetHint) $('hint').textContent = 'Click a card, then where it goes — or drag it. Click your Active Pokémon to attack.';
+}
+document.addEventListener('click', (event) => { if (!event.target.closest('.menu, .modal')) { closePopups(); if (armed) disarm(); } });
+function attackPanel(el, options) {
+  const coach = coachSet(), attacks = options.filter((o) => o.kind === 'Attack'), rest = options.filter((o) => o.kind !== 'Attack');
+  showMenu(el, `<h3>${esc(state.board.you.active[0]?.name || 'Active Pokémon')}</h3>` + attacks.map((o) => `<button class="atk ${coach.has(o.position) ? 'coach-pick' : ''}" data-pos="${o.position}">
+      <span class="cost">${pips(o.detail?.cost || [])}</span><span class="name">${esc(o.detail?.name || o.label)}${coach.has(o.position) ? ' ⭐' : ''}</span><span class="damage">${o.detail?.damage || ''}</span>
+      ${o.detail?.text ? `<span class="text">${esc(o.detail.text)}</span>` : ''}</button>`).join('') +
+    rest.map((o) => `<button data-pos="${o.position}" class="${coach.has(o.position) ? 'coach-pick' : ''}">${esc(o.label)}${coach.has(o.position) ? ' ⭐' : ''}</button>`).join(''));
+}
+function popupMenu(el, options) { const coach = coachSet(); showMenu(el, options.map((o) => `<button data-pos="${o.position}" class="${coach.has(o.position) ? 'coach-pick' : ''}">${esc(o.label)}${coach.has(o.position) ? ' ⭐' : ''}</button>`).join('')); }
+function showMenu(el, html) {
+  closePopups();
+  const menu = document.createElement('div'); menu.className = 'menu'; menu.id = 'menu'; menu.innerHTML = html;
+  menu.querySelectorAll('button[data-pos]').forEach((b) => b.addEventListener('click', (event) => { event.stopPropagation(); closePopups(); select(Number(b.dataset.pos)); }));
+  document.body.appendChild(menu);
+  const rect = el.getBoundingClientRect();
+  menu.style.left = Math.max(8, Math.min(rect.left, innerWidth - menu.offsetWidth - 8)) + 'px';
+  menu.style.top = (rect.bottom + menu.offsetHeight + 8 < innerHeight ? rect.bottom + 6 : Math.max(8, rect.top - menu.offsetHeight - 6)) + 'px';
+}
+function closePopups() { $('menu')?.remove(); }
+function openPicker() {
+  const coach = coachSet(), multi = multiPick();
+  const carded = state.options.filter((o) => o.cardId), plain = state.options.filter((o) => !o.cardId);
+  const back = document.createElement('div'); back.className = 'modal-back'; back.id = 'picker';
+  back.innerHTML = `<div class="modal"><h3>${esc(state.prompt)}</h3><div class="sub">${multi ? `Choose ${state.minCount === state.maxCount ? state.minCount : state.minCount + '–' + state.maxCount}, then confirm.` : 'Choose one.'}${coach.size ? ' ⭐ = coach pick.' : ''}</div>
+    ${carded.length ? `<div class="pick-grid">${carded.map((o) => `<div class="card" data-pos="${o.position}" data-id="${o.cardId}" title="${esc(o.label)}">${cardFace(o.cardId, o.label)}${coach.has(o.position) ? '<span class="coach-star">⭐</span>' : ''}</div>`).join('')}</div>` : ''}
+    ${plain.length ? `<div class="pick-buttons" style="margin-top:${carded.length ? 14 : 0}px">${plain.map((o) => `<button data-pos="${o.position}" class="${coach.has(o.position) ? 'coach-pick' : ''}">${esc(o.label)}${coach.has(o.position) ? ' ⭐' : ''}</button>`).join('')}</div>` : ''}
+    ${state.coach && $('coachOn').value === '1' && state.coach.why?.length ? `<div class="sub" style="margin-top:12px">Coach: ${esc(state.coach.why[0])}</div>` : ''}
+    <div class="modal-actions">${state.coach && $('coachOn').value === '1' ? '<button id="modalCoach">Play coach\'s pick</button>' : ''}${multi ? '<button class="primary" id="modalConfirm">Confirm</button>' : ''}<button id="modalPeek">Peek at board</button></div></div>`;
+  document.body.appendChild(back);
+  back.querySelectorAll('[data-pos]').forEach((el) => el.addEventListener('click', (event) => { event.stopPropagation(); const p = Number(el.dataset.pos); if (!multi) { back.remove(); select(p); } else select(p); }));
+  zoomable(back);
+  $('modalPeek').addEventListener('click', (event) => { event.stopPropagation(); back.style.display = 'none'; setTimeout(() => { back.style.display = ''; }, 2500); });
+  $('modalCoach')?.addEventListener('click', (event) => { event.stopPropagation(); back.remove(); run(() => api('/api/coach-move', {})); });
+  if (multi) $('modalConfirm').addEventListener('click', (event) => { event.stopPropagation(); back.remove(); play([...chosen]); });
+  updateConfirm();
+}
+function showDiscard(who) {
+  const cards = state?.board?.[who]?.discard || [];
+  const back = document.createElement('div'); back.className = 'modal-back'; back.id = 'discardView';
+  back.innerHTML = `<div class="modal"><h3>${who === 'you' ? 'Your' : "Opponent's"} discard pile (${cards.length})</h3><div class="sub">Hover a card to enlarge.</div>
+    <div class="pick-grid">${cards.map((c) => `<div class="card" data-id="${c.id}" style="cursor:default">${cardFace(c.id, c.name)}</div>`).join('') || '<div class="hint">Empty.</div>'}</div>
+    <div class="modal-actions"><button id="closeDiscard">Close</button></div></div>`;
+  document.body.appendChild(back); zoomable(back);
+  const close = () => { back.remove(); hideZoom(); };
+  $('closeDiscard').addEventListener('click', close); back.addEventListener('click', (event) => { if (event.target === back) close(); });
+}
+function closeModals() { $('picker')?.remove(); $('discardView')?.remove(); }
+const startGame = () => run(() => api('/api/new', { deck: $('playDeck').value, coach: true }));
+$('findOpponent').onclick = startGame;
+$('rematch').onclick = startGame;
+$('confirm').addEventListener('click', () => { closeModals(); play([...chosen]); });
+$('takeCoach').addEventListener('click', () => { closeModals(); run(() => api('/api/coach-move', {})); });
+$('coachOn').addEventListener('change', () => { if (state) render(state); });
+
+(async () => {
+  try {
+    images = await api('/card_images.json');
+    [meta, pool] = await Promise.all([api('/api/meta'), api('/api/cards')]);
+    byId = new Map(pool.map((c) => [c.id, c]));
+    $('coachChip').textContent = `Coach: ${meta.coach}`;
+    renderDeckMenus(); renderPool(); renderDeck();
+    const existing = await api('/api/state');
+    if (!existing.idle) { render(existing); showView('play'); }
+    else showView(meta.decks.some((d) => d.saved) ? 'play' : 'build');
+  } catch (error) { $('coachChip').textContent = 'Server unreachable: ' + error.message; }
+})();
+</script>
+</body>
+</html>
