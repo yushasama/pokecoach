@@ -1,0 +1,8 @@
+{
+ "sha256": "5cd80977bb75deb73bc0f4846f17c9d125775107f4b3d36c4c8b5c84d038348c",
+ "updates": 104426,
+ "presentations": 29286768,
+ "source_checkpoint": "bc-8m-2ep-20261114-e/checkpoints/phase-end-e1-raw-52213-u104426.pt",
+ "source_checkpoint_sha256": "911fb34b549ee9913b38dfc3e0b4add6edcf33fb41216a77f62bfc9d36714a74",
+ "contents": "weights only (optimizer and RNG state removed)"
+}
