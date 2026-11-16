@@ -4,6 +4,7 @@ from __future__ import annotations
 
 from pathlib import Path
 
+import pytest
 import torch
 
 from deepmew_ex.experiments.config import PROJECT_ROOT
@@ -12,8 +13,10 @@ from deepmew_ex.rl.farm import Farm, FarmSettings, InferenceServer, Net
 from deepmew_ex.rl.ppo import ValueHead
 
 DECK = PROJECT_ROOT / 'source/.research/curriculum/decks/top_staryu_windecks_b15853cdfb83.deck.csv'
+NOTEBOOKS = [PROJECT_ROOT / f'league/teachers/teacher_{name}.ipynb' for name in ('abomasnow', 'iono', 'dragapult', 'lucario')]
 
 
+@pytest.mark.skipif(not (PROJECT_ROOT / 'source/cg/api.py').is_file() or not all(path.is_file() for path in NOTEBOOKS), reason='needs the competition engine and the Kaggle sample notebooks (not redistributable; see CREDITS.md)')
 def test_farm_routes_checkpoint_opponents_to_torch_workers_and_keeps_lean_workers_torch_free(tmp_path: Path) -> None:
     torch.manual_seed(0)
     model = TemporalPolicy(hidden=32, embedding=8, layers=1, heads=4).eval()
