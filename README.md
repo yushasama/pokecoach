@@ -8,9 +8,11 @@ Everything we did not make ourselves is credited in [CREDITS.md](CREDITS.md).
 ## Run it
 
 1. Python 3.12 with PyTorch (CPU is enough for the app), NumPy and orjson.
-2. Copy the Kaggle competition engine (`cg` package) into `source/cg/`. It is
-   not redistributable, so it is not in this repo; see
-   [source/cg/README.md](source/cg/README.md).
+2. If the CABT competition SDK is already installed in this Python environment,
+   go straight to step 3. If you have an extracted SDK or DeepMew checkout,
+   set `PYTHONPATH` to the directory **containing** its `cg` folder. For example,
+   in PowerShell, use `$env:PYTHONPATH = 'D:\deepmew_ex\source'`. For a new
+   machine, see the [engine setup instructions](source/cg/README.md).
 3. Start the app:
 
 ```

@@ -12,6 +12,7 @@ import sys
 from dataclasses import dataclass
 from enum import IntEnum
 from functools import lru_cache
+from importlib.machinery import PathFinder
 from pathlib import Path
 from types import ModuleType
 from typing import Callable, Mapping, Protocol, Sequence
@@ -80,11 +81,26 @@ class BoundContract:
     deployable_modes: frozenset[str]
 
 
+def engine_api_path() -> Path:
+    local = PROJECT_ROOT / 'source/cg/api.py'
+    if local.is_file():
+        return local
+    # Locate the installed SDK without running its native package initializer.
+    package = PathFinder.find_spec('cg')
+    if package and package.submodule_search_locations:
+        api = PathFinder.find_spec('cg.api', package.submodule_search_locations)
+        if api and api.origin and Path(api.origin).is_file():
+            return Path(api.origin)
+    raise ModuleNotFoundError('CABT cg.api is missing. Set PYTHONPATH to the directory containing the competition cg package (see source/cg/README.md).')
+
+
 def binding_hashes() -> dict[str, str]:
     root = PROJECT_ROOT / 'source'
     paths = [root / 'deepmew' / 'replay' / f"{leaf.replace('.', '/')}.py" for leaf in LEAVES]
-    paths += [root / 'deepmew/replay/prospective_trace.py', root / 'cg/api.py', root / 'deepmew/replay/contract/causal_alignment.py']
-    return {path.relative_to(PROJECT_ROOT).as_posix(): file_hash(path) for path in paths}
+    paths += [root / 'deepmew/replay/prospective_trace.py', root / 'deepmew/replay/contract/causal_alignment.py']
+    hashes = {path.relative_to(PROJECT_ROOT).as_posix(): file_hash(path) for path in paths}
+    hashes['source/cg/api.py'] = file_hash(engine_api_path())
+    return hashes
 
 
 @lru_cache(maxsize=1)
@@ -103,7 +119,7 @@ def load_contract() -> BoundContract:
         exec(compile(tree, str(path), 'exec'), module.__dict__)
     # Reuse precisely the established conservative public projection. The native
     # cg initializer is bypassed: only its declarative LogType enum is evaluated.
-    api = ast.parse((PROJECT_ROOT / 'source/cg/api.py').read_text(encoding='utf-8-sig'))
+    api = ast.parse(engine_api_path().read_text(encoding='utf-8-sig'))
     log_enum = next(node for node in api.body if isinstance(node, ast.ClassDef) and node.name == 'LogType')
     fields = {node.name: frozenset(field.target.id for field in node.body if isinstance(field, ast.AnnAssign) and isinstance(field.target, ast.Name)) for node in api.body if isinstance(node, ast.ClassDef) and node.name in ('Card', 'Pokemon', 'PlayerState', 'State', 'SelectData')}
     # Raw 1.30.2/1.32 Pokemon objects also carry Card.playerIndex (public owner),

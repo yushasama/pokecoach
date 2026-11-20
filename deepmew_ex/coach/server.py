@@ -25,6 +25,10 @@ from deepmew_ex.experiments.config import PROJECT_ROOT
 
 sys.path.insert(0, str(PROJECT_ROOT / 'source'))
 
+from deepmew_ex.datasets.v2.contract import engine_api_path  # noqa: E402
+
+ENGINE_SOURCE = engine_api_path().resolve().parents[1]
+
 from deepmew_ex.coach import labels  # noqa: E402  (needs the engine path above)
 from deepmew_ex.coach.brains import CoachModel, ExternalBrain, ExternalCoach, GreedyBrain, ModelBrain, RulesBrain, find_checkpoints, load_coach_model  # noqa: E402
 from deepmew_ex.coach.decks import DeckStore, catalog, problems  # noqa: E402
@@ -93,12 +97,12 @@ class Coach:
         if name == 'model' and self.model is not None:
             return ModelBrain(self.model, 'DeepMew BC model')
         if name == 'seventh' and self.has_seventh:
-            return ExternalBrain(EXTERNAL_7TH, PROJECT_ROOT / 'source', '7th-place league agent')
+            return ExternalBrain(EXTERNAL_7TH, ENGINE_SOURCE, '7th-place league agent')
         return RulesBrain() if name == 'rules' else GreedyBrain()
 
     def make_coach(self):
         if self.has_seventh:
-            return ExternalCoach(EXTERNAL_7TH, PROJECT_ROOT / 'source', '7th-place league agent')
+            return ExternalCoach(EXTERNAL_7TH, ENGINE_SOURCE, '7th-place league agent')
         return ModelBrain(self.model, 'coach') if self.model is not None else None
 
     def deck(self, name: str) -> list[int]:
