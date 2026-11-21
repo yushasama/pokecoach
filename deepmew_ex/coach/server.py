@@ -23,7 +23,7 @@ from pathlib import Path
 from deepmew_ex.coach.engine_setup import activate_engine
 from deepmew_ex.experiments.config import PROJECT_ROOT
 
-ENGINE_SOURCE = activate_engine(install=__name__ == '__main__')
+ENGINE_SOURCE = activate_engine(install=False)
 
 from deepmew_ex.coach import labels  # noqa: E402  (needs the engine path above)
 from deepmew_ex.coach.brains import CoachModel, ExternalBrain, ExternalCoach, GreedyBrain, ModelBrain, RulesBrain, find_checkpoints, load_coach_model  # noqa: E402

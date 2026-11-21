@@ -1,5 +1,7 @@
 import hashlib
 import io
+import runpy
+import sys
 from pathlib import Path
 from unittest.mock import patch
 from zipfile import ZipFile
@@ -7,6 +9,17 @@ from zipfile import ZipFile
 import pytest
 
 from deepmew_ex.coach import engine_setup
+
+
+def test_server_with_missing_engine_does_not_download(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
+    monkeypatch.setattr(engine_setup, 'PROJECT_ROOT', tmp_path)
+    monkeypatch.setattr(sys, 'path', sys.path.copy())
+    monkeypatch.setattr(engine_setup, 'native_library', lambda system, machine: 'cg.dll')
+    with patch.object(engine_setup, 'engine_api_path', side_effect=ModuleNotFoundError), patch.object(engine_setup, 'download') as fetch:
+        with pytest.raises(ModuleNotFoundError, match='python -m deepmew_ex.coach.engine_setup'):
+            runpy.run_module('deepmew_ex.coach.server', run_name='__main__')
+        fetch.assert_not_called()
+    assert not (tmp_path / 'outputs').exists()
 
 
 def test_first_install_and_offline_restart(tmp_path: Path) -> None:

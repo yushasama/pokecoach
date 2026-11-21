@@ -1,4 +1,4 @@
-"""Install the public CABT v8 SDK for the coach on first launch."""
+"""Install the public CABT v8 SDK for the coach during setup."""
 
 import hashlib
 import io
@@ -80,7 +80,7 @@ def coach_sdk(cache: Path, *, install: bool) -> Path:
                 if not package.is_dir():
                     raise
     if not package.is_dir():
-        raise ModuleNotFoundError('Start the coach once with python -m deepmew_ex.coach.server to install CABT.')
+        raise ModuleNotFoundError('Install CABT first: python -m deepmew_ex.coach.engine_setup')
     verify(package, hashes)
     return root
 
@@ -93,3 +93,7 @@ def activate_engine(*, install: bool) -> Path:
         root = coach_sdk(PROJECT_ROOT / 'outputs/cabt-sdk', install=install)
         sys.path.insert(0, str(root))
         return root
+
+
+if __name__ == '__main__':
+    print(f'CABT ready in {activate_engine(install=True)}')

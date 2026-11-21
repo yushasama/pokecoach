@@ -12,6 +12,7 @@ Use 64-bit Python 3.12. From this repository on Windows, run:
 ```powershell
 python -m venv .venv
 .\.venv\Scripts\python -m pip install -r requirements-coach.txt
+.\.venv\Scripts\python -m deepmew_ex.coach.engine_setup
 .\.venv\Scripts\python -m deepmew_ex.coach.server
 ```
 
@@ -20,12 +21,13 @@ On Linux or an Apple Silicon Mac, run:
 ```sh
 python3.12 -m venv .venv
 .venv/bin/python -m pip install -r requirements-coach.txt
+.venv/bin/python -m deepmew_ex.coach.engine_setup
 .venv/bin/python -m deepmew_ex.coach.server
 ```
 
-The first launch downloads the public CABT game engine and verifies its checksums.
-Subsequent launches use the cached engine. Both coach and opponent run on CPU.
-Open http://127.0.0.1:8765, select a sample deck, and choose **Find opponent**.
+Run `engine_setup` once to download and verify CABT. For subsequent sessions,
+run only the server command. The server loads the installed engine locally. Both coach and opponent run on CPU.
+Open http://127.0.0.1:8765, load a sample deck, click **Play with this deck**, then **Find opponent**.
 See the [UI guide](deepmew_ex/coach/README.md) and [engine details](source/cg/README.md).
 Tests: `python -m pytest tests/coach tests/rl tests/models -q`.
 
