@@ -5,10 +5,7 @@ coach highlights the strongest move and explains why. You are free to ignore it.
 
 ## Run it
 
-```
-cd D:\deepmew_ex
-.venv\Scripts\python.exe -m deepmew_ex.coach.server --port 8765
-```
+Follow the [PokéCoach installation and launch instructions](../../README.md#run-it).
 
 Open http://127.0.0.1:8765. Our models run on CPU (a training run can keep the GPU).
 

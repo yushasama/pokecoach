@@ -1,11 +1,16 @@
-# Game engine goes here (not included)
+# CABT engine setup
 
 PokéCoach plays every game on the CABT engine from the Kaggle Pokémon TCG AI
 Battle competition. The engine has no redistribution license, so it is not in
 this repository (see `CREDITS.md`).
 
-Get the SDK from the [competition data](https://www.kaggle.com/competitions/pokemon-tcg-ai-battle/data)
-or use an existing installation. Find the directory containing `cg/api.py`
+The [normal launch](../../README.md#run-it) installs and verifies the SDK in
+`outputs/cabt-sdk/` on first use. It downloads [cg-lib version 8](https://www.kaggle.com/datasets/kiyotah/cg-lib/versions/8)
+and, on Windows x64, Linux ARM64 and Apple Silicon, the matching
+[Kaggle native library](https://github.com/Kaggle/kaggle-environments/tree/03ab2cc235b719e5a3bd0d19e2d2c62c65a4c303/kaggle_environments/envs/cabt/cg).
+The archive includes the Linux x86-64 library. The downloads require internet access only on first launch.
+
+For an existing manual installation, find the directory containing `cg/api.py`
 and the native library for your OS. Set `PYTHONPATH` to the **parent of cg**
 in the same shell that starts PokéCoach. For example, for an SDK extracted
 to `C:\cabt\cg`, run:

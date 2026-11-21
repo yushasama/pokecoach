@@ -7,19 +7,26 @@ Everything we did not make ourselves is credited in [CREDITS.md](CREDITS.md).
 
 ## Run it
 
-1. Python 3.12 with PyTorch (CPU is enough for the app), NumPy and orjson.
-2. If the CABT competition SDK is already installed in this Python environment,
-   go straight to step 3. If you have an extracted SDK or DeepMew checkout,
-   set `PYTHONPATH` to the directory **containing** its `cg` folder. For example,
-   in PowerShell, use `$env:PYTHONPATH = 'D:\deepmew_ex\source'`. For a new
-   machine, see the [engine setup instructions](source/cg/README.md).
-3. Start the app:
+Use 64-bit Python 3.12. From this repository on Windows, run:
 
-```
-python -m deepmew_ex.coach.server --port 8765
+```powershell
+python -m venv .venv
+.\.venv\Scripts\python -m pip install -r requirements-coach.txt
+.\.venv\Scripts\python -m deepmew_ex.coach.server
 ```
 
-Open http://127.0.0.1:8765. Full UI guide: [deepmew_ex/coach/README.md](deepmew_ex/coach/README.md).
+On Linux or an Apple Silicon Mac, run:
+
+```sh
+python3.12 -m venv .venv
+.venv/bin/python -m pip install -r requirements-coach.txt
+.venv/bin/python -m deepmew_ex.coach.server
+```
+
+The first launch downloads the public CABT game engine and verifies its checksums.
+Subsequent launches use the cached engine. Both coach and opponent run on CPU.
+Open http://127.0.0.1:8765, select a sample deck, and choose **Find opponent**.
+See the [UI guide](deepmew_ex/coach/README.md) and [engine details](source/cg/README.md).
 Tests: `python -m pytest tests/coach tests/rl tests/models -q`.
 
 ## What is in this repo
@@ -29,7 +36,7 @@ Tests: `python -m pytest tests/coach tests/rl tests/models -q`.
 | `deepmew_ex/coach/` | The app: stdlib HTTP server, game session on the engine, brains, explanations, deck builder UI |
 | `deepmew_ex/` (rest) | DeepMew EX: actor-visible history, byte-level temporal transformer, BC training stack |
 | `deepmew_ex/rl/` | League RL: cached-inference game farm, PPO, PFSP league, evaluation |
-| `source/cg/` | Where you put the competition game engine (CABT); not included |
+| `source/cg/` | CABT download sources and optional manual setup |
 | `source/deepmew/`, `source/scripts/` | BabyMew rules agent, arena runner and the legacy loaders the league uses |
 | `league/` | Frozen league registry and deck lists (the Kaggle sample opponent notebooks are not included) |
 | `models/coach/` | Our BC model, weights only |

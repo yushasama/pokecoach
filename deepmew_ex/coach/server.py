@@ -16,18 +16,14 @@ import argparse
 import json
 import os
 import random
-import sys
 import traceback
 from http.server import BaseHTTPRequestHandler, HTTPServer
 from pathlib import Path
 
+from deepmew_ex.coach.engine_setup import activate_engine
 from deepmew_ex.experiments.config import PROJECT_ROOT
 
-sys.path.insert(0, str(PROJECT_ROOT / 'source'))
-
-from deepmew_ex.datasets.v2.contract import engine_api_path  # noqa: E402
-
-ENGINE_SOURCE = engine_api_path().resolve().parents[1]
+ENGINE_SOURCE = activate_engine(install=__name__ == '__main__')
 
 from deepmew_ex.coach import labels  # noqa: E402  (needs the engine path above)
 from deepmew_ex.coach.brains import CoachModel, ExternalBrain, ExternalCoach, GreedyBrain, ModelBrain, RulesBrain, find_checkpoints, load_coach_model  # noqa: E402

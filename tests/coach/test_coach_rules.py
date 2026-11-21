@@ -1,10 +1,9 @@
-import sys
-
 import pytest
 
+from deepmew_ex.coach.engine_setup import activate_engine
 from deepmew_ex.experiments.config import PROJECT_ROOT
 
-sys.path.insert(0, str(PROJECT_ROOT / 'source'))
+activate_engine(install=False)
 
 from cg.api import CardType, EnergyType  # noqa: E402
 

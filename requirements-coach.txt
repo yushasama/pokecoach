@@ -1,0 +1,4 @@
+numpy>=1.26
+torch>=2.6
+orjson>=3.11
+zstandard>=0.25
